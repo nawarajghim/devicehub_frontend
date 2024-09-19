@@ -9,6 +9,7 @@ header {
     color: white;
     padding-inline-start: 0px;
     margin-top: 45px;
+    margin-left: -50px;
 }
   .navit ul{
     padding-inline-start: 0px !important;
@@ -48,7 +49,6 @@ svg{
   margin-top: -122px;
 }
 
-
 .mainpage {
     color:black;
     margin-right: -100px;
@@ -78,6 +78,6 @@ svg{
 
 .footer{
     margin-top: -100px;
-    margin-left: -50px;
+    margin-left: -60px;
 }
   
