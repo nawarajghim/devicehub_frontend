@@ -1,5 +1,6 @@
 import { Link, Outlet} from "react-router-dom";
 
+
 const Layout = () => {
 
     return (
@@ -8,22 +9,23 @@ const Layout = () => {
     <div className="layout">
       <header>
         <nav className="navit">
-          <ul>
+          <ul >
+          <li className="navi">
+              <Link to="/login">
+              <p className="">Login</p>
+              </Link>
+            </li>
           <li className="navi">
               <Link to="/">
-                <img src={'../haku.svg'} alt="Home" />
+              <p className="navi-P">Home</p>
               </Link>
             </li>
             <li className="navi">
               <Link to="/devices">
-                <img src={'../haku.svg'} alt="Devices" />
+              <p className="">Devices</p>
               </Link>
             </li>
-            <li className="navi">
-              <Link to="/login">
-                <img src={'../haku.svg'} alt="Login" />
-              </Link>
-            </li>
+
           </ul>
         </nav>
       
@@ -35,8 +37,7 @@ const Layout = () => {
     
       </main>
       </div>
-
-       <footer className="footer">
+      <footer className="footer">
             <p>Device hub © 2024</p>
        </footer>
           
