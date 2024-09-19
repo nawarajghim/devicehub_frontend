@@ -3,21 +3,19 @@
     min-height: 100vh;
   }
   
-  header {
+header {
     align-self: flex-start;
     min-width: 20vh;
     color: white;
     padding-inline-start: 0px;
-
-
-  }
+    margin-top: 45px;
+}
   .navit ul{
     padding-inline-start: 0px !important;
   }
 
   
   .navi {
-    margin-bottom: 20px;
     list-style: none;
     text-decoration: none;
     padding: 0;
@@ -27,19 +25,31 @@
   .navi a {
     color: white;
     text-decoration: none;
-    
     display: block;
-   
-  
   }
- .navi-P{
+
+ .navi-p-active{
   color: #5459EA;
-  margin-top: -22px;
 
  }
 
-  
-  .mainpage {
+svg{
+  margin-left: -45px;
+  margin-bottom: -4px;
+  padding-right: 20px;
+}
+
+.navbar{
+  width: 60vh;
+  height: 6vh;
+  background-color: white;
+  border-radius: 30px;
+  margin-left: -60px;
+  margin-top: -122px;
+}
+
+
+.mainpage {
     color:black;
     margin-right: -100px;
     margin-top: 5px;
@@ -50,9 +60,9 @@
     display: flex;
     background-color: white;
     border-radius: 30px;
-    width: 170vh;
+    width: 300vh;
     height: 85vh;
-  }
+}
   
   body, html {
     margin: 0;
@@ -66,30 +76,8 @@
 
   }
 
-  .footer{
+.footer{
     margin-top: -100px;
     margin-left: -50px;
-  }
+}
   
-/* 
-header{
-    display: flex;
-    align-content: flex-start;
-}
-
-.mainpage{
-    align-content: flex-end;
-    display: flex;
-    background-color: white;
-    border-radius: 30px;
-    width: 80vh;
-    height: 100vh;
-}
-
-.layout{
-
-    flex-direction: row;
-    display: flex;
-    justify-content: space-between;
-}
-*/
