@@ -64,7 +64,21 @@ const Layout = () => {
           </nav>
 
           {/* Apply dynamic navbar class */}
-          <div className={`navbar ${navbarClass}`}></div>
+          <div className={`navbar ${navbarClass}`}>
+
+          {/* top round */}
+          <svg className="top-nav"
+          width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="24" height="24" fill="white"/>
+          <path d="M0 0H24C24 13.2548 13.2548 24 0 24V0Z" fill="#101010"/>
+          </svg> 
+          {/* top bottom */}
+          <svg className="bottom-nav"
+           width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="white"/>
+          <path d="M0 24L0 0C13.2548 0 24 10.7452 24 24H0Z" fill="#101010"/>
+          </svg>
+          </div>
         </header>
         <main className="mainpage">
           <Outlet />

@@ -78,21 +78,21 @@ svg{
 }
 
 /*navbar icons*/
+.top-nav{
+  position: absolute;
+  /*margin-left: 275px;*/
+  left: 320px;
+  top: -24px;
 
-.svg-admin {
-  background-image: url('../assets/icons/healthicons_truck-driver.svg');
-  width: 20px;
-  height: 20px;
-  box-sizing: border-box;
-  color: none;
+
 }
 
+.bottom-nav{
+  position: absolute;
+  left: 320px;
+  bottom: -20px;
 
-
-
-
-
-
+}
 
 
 /* Main page */
@@ -107,7 +107,7 @@ svg{
     display: flex;
     background-color: white;
     border-radius: 30px;
-    width: 300vh;
+    width: 250vh;
     height: 85vh;
 }
   
