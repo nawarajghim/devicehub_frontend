@@ -2,6 +2,9 @@
     display: flex;
     min-height: 100vh;
   }
+
+
+/* Sidebar */
   
 header {
     align-self: flex-start;
@@ -50,6 +53,14 @@ svg{
   color: #5459EA;
 }
 
+.navi-p-icon-H{
+  stroke: #5459EA;
+}
+
+.navi-p-icon-D{
+  fill: #5459EA;
+}
+
 .navbar.home {
   /* Styles for home page navbar */
   transform: translateY(0); /* Default position */
@@ -66,6 +77,25 @@ svg{
   transform: translateY(0); /* Same as home */
 }
 
+/*navbar icons*/
+
+.svg-admin {
+  background-image: url('../assets/icons/healthicons_truck-driver.svg');
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  color: none;
+}
+
+
+
+
+
+
+
+
+
+/* Main page */
 .mainpage {
     color:black;
     margin-right: -100px;
