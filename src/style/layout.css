@@ -81,7 +81,7 @@ svg{
 .top-nav{
   position: absolute;
   /*margin-left: 275px;*/
-  left: 320px;
+  left: 285px;
   top: -24px;
 
 
@@ -89,7 +89,7 @@ svg{
 
 .bottom-nav{
   position: absolute;
-  left: 320px;
+  left:  285px;
   bottom: -20px;
 
 }
@@ -107,7 +107,7 @@ svg{
     display: flex;
     background-color: white;
     border-radius: 30px;
-    width: 250vh;
+    width: 300vh;
     height: 85vh;
 }
   
