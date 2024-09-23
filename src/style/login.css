@@ -1,0 +1,112 @@
+/* Login.css */
+.login-container {
+    display: flex;
+    height: 90vh;
+    width: 130vh;
+    background-color: #1c1c1e; /* Dark background */
+  }
+  
+  .login-left {
+    width: 50%;
+    background-image: url('../assets/placeholderImage.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px 0 0 15px; /* Rounded corners on left */
+  }
+  
+  .login-right {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 0 15px 15px 0; /* Rounded corners on right */
+  }
+  
+  .login-form-container {
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+    color: #252733;
+    margin: 0.3rem;
+  }
+  
+  p {
+    color: #9FA2B4;
+    margin-bottom: 3rem;
+    margin-top: 0;
+    font-size: 0.9rem;
+  }
+  
+  label {
+    display: block;
+    text-align: left;
+    font-size: 0.70rem;
+    color: #101010;
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+  }
+  
+  input {
+    width: 16.5rem;
+    padding: 10px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #101010;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    background-color: #fff;
+  }
+
+  input::placeholder {
+    color: #9FA2B4;
+    font-size: 0.85rem;
+  }
+  
+  .loginButton {
+    width: 100%;
+    padding: 12px;
+    background-color: #505470;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  button .spinner {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @media (max-width: 768px) {
+    .login-container {
+      flex-direction: column;
+    }
+  
+    .login-left, .login-right {
+      width: 100%;
+      border-radius: 0; /* Remove rounded corners for mobile */
+    }
+  }
+  
