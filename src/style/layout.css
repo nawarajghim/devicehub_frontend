@@ -61,6 +61,10 @@ svg{
   fill: var(--purple);
 }
 
+.navi-p-icon-O{
+  fill: var(--purple);
+}
+
 .navbar.home {
   /* Styles for home page navbar */
   transform: translateY(0); /* Default position */
@@ -75,6 +79,10 @@ svg{
 .navbar.login {
   /* Styles for login page navbar */
   transform: translateY(0); /* Same as home */
+}
+
+.navbar.data {
+  transform: translateY(55px); /* Move it down by 50px */
 }
 
 /*navbar icons*/

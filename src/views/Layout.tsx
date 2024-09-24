@@ -60,6 +60,15 @@ const Layout = () => {
                   </p>
                 </Link>
               </li>
+
+             {/*   <li className="navi">
+               <Link to="/data"> 
+                    <p className={location.pathname === "/data" ? "navi-p-active" : ""}>
+                    Devices
+                  </p>
+                </Link>
+              </li>
+              */}
             </ul>
           </nav>
 

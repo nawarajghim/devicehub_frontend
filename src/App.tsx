@@ -6,6 +6,7 @@ import Layout from './views/Layout';
 import Devices from './views/Devices';
 import './App.css';
 import Login from './components/Login';
+import Data from './views/data';
 
 // App Component
 const App: React.FC = () => {
@@ -41,8 +42,11 @@ const App: React.FC = () => {
               <Route path="/" element={<Home />} />
               {/* Devices page accessible without login */}
               <Route path="/devices" element={<Devices />} />
+              {/* Data page accessible without login */}
+              <Route path="/data" element={<Data />} />
             </Route>
-
+            
+          
             {/* Login route */}
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
           </Routes>
