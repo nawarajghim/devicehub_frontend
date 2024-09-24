@@ -1,17 +1,18 @@
-/* Login.css */
+@import url('../index.css');
+
 .login-container {
     display: flex;
     height: 90vh;
     width: 130vh;
-    background-color: #1c1c1e; /* Dark background */
+    background-color: var(--background);
   }
   
   .login-left {
     width: 50%;
-    background-image: url('../assets/placeholderImage.jpg'); /* Replace with your image path */
+    background-image: url('../assets/placeholderImage.jpg'); 
     background-size: cover;
     background-position: center;
-    border-radius: 15px 0 0 15px; /* Rounded corners on left */
+    border-radius: 15px 0 0 15px;
   }
   
   .login-right {
@@ -19,8 +20,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
-    border-radius: 0 15px 15px 0; /* Rounded corners on right */
+    background-color: var(--white);
+    border-radius: 0 15px 15px 0;
   }
   
   .login-form-container {
@@ -31,12 +32,12 @@
   
   h2 {
     font-size: 1.2rem;
-    color: #252733;
+    color: var(--title-text);
     margin: 0.3rem;
   }
   
   p {
-    color: #9FA2B4;
+    color: var(--dark-text);
     margin-bottom: 3rem;
     margin-top: 0;
     font-size: 0.9rem;
@@ -46,7 +47,7 @@
     display: block;
     text-align: left;
     font-size: 0.70rem;
-    color: #101010;
+    color: var(--dark-text);
     margin-bottom: 0.3rem;
     font-weight: bold;
   }
@@ -55,24 +56,24 @@
     width: 16.5rem;
     padding: 10px;
     margin-bottom: 1.5rem;
-    border: 1px solid #101010;
+    border: 1px solid var(--dark-text);
     border-radius: 8px;
     font-size: 1rem;
     outline: none;
-    background-color: #fff;
-    color: #101010;
+    background-color: var(--white);
+    color: var(--dark-text);
   }
 
   input::placeholder {
-    color: #9FA2B4;
+    color: var(--light-text);
     font-size: 0.85rem;
   }
   
   .loginButton {
     width: 100%;
     padding: 12px;
-    background-color: #505470;
-    color: #fff;
+    background-color: var(--purple);
+    color: var(--white);
     border: none;
     border-radius: 8px;
     font-size: 1rem;
@@ -87,7 +88,7 @@
   
   button .spinner {
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top: 2px solid white;
+    border-top: 2px solid var(--white);
     border-radius: 50%;
     width: 16px;
     height: 16px;
@@ -107,7 +108,7 @@
   
     .login-left, .login-right {
       width: 100%;
-      border-radius: 0; /* Remove rounded corners for mobile */
+      border-radius: 0; 
     }
   }
   
