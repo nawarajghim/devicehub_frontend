@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { UpdateProvider } from './contexts/UpdateContexts';
 import Home from './views/Home';
@@ -31,34 +31,16 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Protected Route Component
-  const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-    return isLoggedIn ? children : <Navigate to="/login" />;
-  };
-
   return (
     <>
       <Router basename={import.meta.env.BASE_URL}>
         <UpdateProvider>
           <Routes>
             <Route element={<Layout />}>
-              {/* Protected routes */}
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute>
-                    <Home />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/devices"
-                element={
-                  <ProtectedRoute>
-                    <Devices />
-                  </ProtectedRoute>
-                }
-              />
+              {/* Home page accessible without login */}
+              <Route path="/" element={<Home />} />
+              {/* Devices page accessible without login */}
+              <Route path="/devices" element={<Devices />} />
             </Route>
 
             {/* Login route */}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import '../style/login.css'; // Import the CSS we created
 
 interface LoginProps {
@@ -10,12 +11,21 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
+  const navigate = useNavigate(); // This hook allows for programmatic navigation
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       onLogin(username, password);
+      
+      // If login credentials are valid, navigate to the home page
+      if (username === 'admin' && password === 'password') {
+        navigate('/'); // Redirects to home page after login
+      } else {
+        alert('Invalid credentials');
+      }
     }, 1500);
   };
 
