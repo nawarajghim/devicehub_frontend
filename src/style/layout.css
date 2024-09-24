@@ -50,15 +50,15 @@ svg{
 .navi-p-active {
   position: relative;  /* Ensure the z-index works */
   z-index: 10;  /* A higher value to bring it to the front */
-  color: #5459EA;
+  color: var(--purple);
 }
 
 .navi-p-icon-H{
-  stroke: #5459EA;
+  stroke: var(--purple);
 }
 
 .navi-p-icon-D{
-  fill: #5459EA;
+  fill: var(--purple);
 }
 
 .navbar.home {
@@ -94,7 +94,7 @@ svg{
 
 /* Main page */
 .mainpage {
-    color:black;
+    color: var(--dark-text);
     margin-right: -100px;
     margin-top: 5px;
     padding: 20px;
