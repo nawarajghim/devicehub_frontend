@@ -35,7 +35,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       <div className="login-right">
         <div className="login-form-container">
           <h2>Log In to Admin Panel</h2>
-          <p>Enter your Username and password below</p>
+          <p className='.p-login'>Enter your Username and password below</p>
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">USERNAME</label>
             <input

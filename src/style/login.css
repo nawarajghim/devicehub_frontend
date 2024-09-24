@@ -36,7 +36,7 @@
     margin: 0.3rem;
   }
   
-  p {
+  .p-login {
     color: var(--dark-text);
     margin-bottom: 3rem;
     margin-top: 0;
