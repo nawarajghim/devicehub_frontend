@@ -1,8 +1,8 @@
 const Home = () => {
   return (
     <div>
-      <h2>Device Hub</h2>
-      <p>this is home</p>
+      <h2 className="h2-title">Device Hub</h2>
+      <hr className="line"></hr>
 
       {/* Your layout content here */}
     </div>

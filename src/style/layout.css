@@ -99,7 +99,6 @@ svg{
   bottom: -2.7vh;
 }
 
-
 /* Main page */
 .mainpage {
     color: var(--dark-text);
@@ -125,7 +124,6 @@ svg{
   .navi{
     display: flex;
     justify-content:flex-start;
-
   }
 
 .footer{

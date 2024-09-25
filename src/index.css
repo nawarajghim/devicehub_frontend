@@ -25,9 +25,7 @@ a {
   color: var(--purple);
   text-decoration: inherit;
 }
-a:hover {
-  color: var(--purple);
-}
+
 
 body {
   margin: 0;
@@ -37,10 +35,6 @@ body {
   overflow: hidden; 
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
 
 button {
   border-radius: 8px;
