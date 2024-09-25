@@ -89,14 +89,14 @@ svg{
 .top-nav{
   position: absolute;
   /*margin-left: 275px;*/
-  left: 285px;
-  top: -24px;
+  left: 39vh;
+  top: -3.3vh;
 }
 
 .bottom-nav{
   position: absolute;
-  left:  285px;
-  bottom: -20px;
+  left: 39vh;
+  bottom: -2.7vh;
 }
 
 
