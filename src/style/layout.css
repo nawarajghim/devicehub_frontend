@@ -113,6 +113,8 @@ svg{
     border-radius: 30px;
     width: 300vh;
     height: 85vh;
+    z-index: 11;
+
 }
   
   body, html {
