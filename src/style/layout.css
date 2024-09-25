@@ -44,12 +44,12 @@ svg{
   border-radius: 30px;
   margin-left: -60px;
   margin-top: -122px;
-  transition: transform 0.3s ease-in-out; /* Smooth transition */
+  transition: transform 0.3s ease-in-out;
 }
 
 .navi-p-active {
-  position: relative;  /* Ensure the z-index works */
-  z-index: 10;  /* A higher value to bring it to the front */
+  position: relative;
+  z-index: 10; 
   color: var(--purple);
 }
 
@@ -66,23 +66,20 @@ svg{
 }
 
 .navbar.home {
-  /* Styles for home page navbar */
-  transform: translateY(0); /* Default position */
+  transform: translateY(0);
   color: #000;
 }
 
 .navbar.devices {
-  /* Styles for devices page navbar */
-  transform: translateY(55px); /* Move it down by 50px */
+  transform: translateY(55px);
 }
 
 .navbar.login {
-  /* Styles for login page navbar */
-  transform: translateY(0); /* Same as home */
+  transform: translateY(0);
 }
 
 .navbar.data {
-  transform: translateY(55px); /* Move it down by 50px */
+  transform: translateY(55px);
 }
 
 /*navbar icons*/
