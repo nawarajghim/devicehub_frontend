@@ -49,9 +49,10 @@ const useFetchDevice = (name: string) => {
             setLoading(true);
             setError(null);
             try {
-                const response = await axios.get<Device>(`http://localhost:3000/api/v1/devices/${name}`);
+                const response = await axios.get<Device>(`http://localhost:3000/api/v1/devices/name/${name}`);
                 setDevice(response.data)
-            }   catch {
+            }   catch (err) {
+                console.error(`Error fetching device ${name}: `, err)
                 setError('Failed to fetch device');
             }   finally {
                 setLoading(false);
