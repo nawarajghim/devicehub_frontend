@@ -6,11 +6,15 @@ import Layout from "./views/Layout";
 import Devices from "./views/Devices";
 import "./App.css";
 import Login from "./components/Login";
-import Data from "./views/data";
-import SingleDevice from "./components/SingleDevice";
 
+import SingleDevice from "./components/SingleDevice";
+import Data from "./views/Data";
+
+
+// App Component
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  console.log(isLoggedIn)
 
   const handleLogin = (username: string, password: string) => {
     // TODO: login check

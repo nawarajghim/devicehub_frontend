@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetchDevice } from "../hooks/apiHooks";
 import { useParams } from "react-router-dom";
-import Data from "../views/data";
+import Data from "../views/Data";
 
 const SingleDevice: React.FC = () => {
   const { deviceName } = useParams<{ deviceName: string }>();
