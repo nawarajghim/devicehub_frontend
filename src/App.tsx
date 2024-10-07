@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { UpdateProvider } from './contexts/UpdateContexts';
-import Home from './views/Home';
-import Layout from './views/Layout';
-import Devices from './views/Devices';
-import './App.css';
-import Login from './components/Login';
-import Data from './views/data';
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { UpdateProvider } from "./contexts/UpdateContexts";
+import Home from "./views/Home";
+import Layout from "./views/Layout";
+import Devices from "./views/Devices";
+import "./App.css";
+import Login from "./components/Login";
+import Data from "./views/data";
+import SingleDevice from "./components/SingleDevice";
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -16,15 +16,15 @@ const App: React.FC = () => {
     // TODO: login check
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
-      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem("isLoggedIn", "true");
     } else {
-      alert('Invalid credentials');
+      alert("Invalid credentials");
     }
   };
 
   useEffect(() => {
-    const loggedInStatus = localStorage.getItem('isLoggedIn');
-    if (loggedInStatus === 'true') {
+    const loggedInStatus = localStorage.getItem("isLoggedIn");
+    if (loggedInStatus === "true") {
       setIsLoggedIn(true);
     }
   }, []);
@@ -41,10 +41,11 @@ const App: React.FC = () => {
               <Route path="/devices" element={<Devices />} />
               {/* Data page accessible without login */}
               <Route path="/data" element={<Data />} />
+              <Route
+                path="/devices/name/:deviceName"
+                element={<SingleDevice />}
+              />
             </Route>
-            
-          
-            {/* Login route */}
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
           </Routes>
         </UpdateProvider>

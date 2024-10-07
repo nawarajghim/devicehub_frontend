@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../style/login.css';
 
 interface LoginProps {
   onLogin: (username: string, password: string) => void;
@@ -33,7 +32,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       <div className="login-left"></div>
       <div className="login-right">
         <div className="login-form-container">
-          <h2>Log In to Admin Panel</h2>
+          <h2 className='h2-login '>Log In to Admin Panel</h2>
           <p className='.p-login'>Enter your Username and password below</p>
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">USERNAME</label>

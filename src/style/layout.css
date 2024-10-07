@@ -86,16 +86,15 @@ svg{
 .top-nav{
   position: absolute;
   /*margin-left: 275px;*/
-  left: 285px;
-  top: -24px;
+  left: 39vh;
+  top: -3.3vh;
 }
 
 .bottom-nav{
   position: absolute;
-  left:  285px;
-  bottom: -20px;
+  left: 39vh;
+  bottom: -2.7vh;
 }
-
 
 /* Main page */
 .mainpage {
@@ -111,6 +110,8 @@ svg{
     border-radius: 30px;
     width: 300vh;
     height: 85vh;
+    z-index: 11;
+
 }
   
   body, html {
@@ -122,7 +123,6 @@ svg{
   .navi{
     display: flex;
     justify-content:flex-start;
-
   }
 
 .footer{
