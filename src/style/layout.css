@@ -111,7 +111,7 @@ svg{
     width: 300vh;
     height: 85vh;
     z-index: 11;
-
+    overflow-y: scroll;
 }
   
   body, html {

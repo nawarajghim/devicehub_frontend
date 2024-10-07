@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const DeviceList: React.FC = () => {
   const { devices, loading, error } = useFetchDevices();
+  console.log(devices);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
