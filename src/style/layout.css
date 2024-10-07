@@ -44,12 +44,12 @@ svg{
   border-radius: 30px;
   margin-left: -60px;
   margin-top: -122px;
-  transition: transform 0.3s ease-in-out; /* Smooth transition */
+  transition: transform 0.3s ease-in-out;
 }
 
 .navi-p-active {
-  position: relative;  /* Ensure the z-index works */
-  z-index: 10;  /* A higher value to bring it to the front */
+  position: relative;
+  z-index: 10; 
   color: var(--purple);
 }
 
@@ -66,39 +66,35 @@ svg{
 }
 
 .navbar.home {
-  /* Styles for home page navbar */
-  transform: translateY(0); /* Default position */
+  transform: translateY(0);
   color: #000;
 }
 
 .navbar.devices {
-  /* Styles for devices page navbar */
-  transform: translateY(55px); /* Move it down by 50px */
+  transform: translateY(55px);
 }
 
 .navbar.login {
-  /* Styles for login page navbar */
-  transform: translateY(0); /* Same as home */
+  transform: translateY(0);
 }
 
 .navbar.data {
-  transform: translateY(55px); /* Move it down by 50px */
+  transform: translateY(55px);
 }
 
 /*navbar icons*/
 .top-nav{
   position: absolute;
   /*margin-left: 275px;*/
-  left: 285px;
-  top: -24px;
+  left: 39vh;
+  top: -3.3vh;
 }
 
 .bottom-nav{
   position: absolute;
-  left:  285px;
-  bottom: -20px;
+  left: 39vh;
+  bottom: -2.7vh;
 }
-
 
 /* Main page */
 .mainpage {
@@ -114,6 +110,8 @@ svg{
     border-radius: 30px;
     width: 300vh;
     height: 85vh;
+    z-index: 11;
+
 }
   
   body, html {
@@ -125,7 +123,6 @@ svg{
   .navi{
     display: flex;
     justify-content:flex-start;
-
   }
 
 .footer{

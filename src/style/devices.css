@@ -7,3 +7,40 @@
     color: white;
   
 }
+.device-h3{
+    margin-left: 20px;
+    margin-top: 50px;
+
+}
+
+.device-container{
+    color: #000;
+}
+
+.device-card{
+    display: flex;
+}
+.device-info{
+    background-color: #f7f8fA;
+    border:  1px solid #EFF0F4;
+    border-radius: 10px;
+    padding-left: 25px;
+}
+
+.device-card h4{
+    flex: 1; /* Each paragraph takes up equal space */
+    padding-left: 5px;
+}
+.device-card p{
+    flex: 2; /* Each paragraph takes up equal space */
+    padding-left: 35px;
+}
+
+.card-info{
+    margin-left: -78px;
+}
+
+
+.device-button{
+    margin-left: -50px;
+}
