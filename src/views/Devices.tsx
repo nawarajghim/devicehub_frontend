@@ -1,3 +1,5 @@
+import DeviceClassList from "../components/DeviceClasses";
+import DeviceDataList from "../components/DeviceData";
 import DeviceList from "../components/DeviceList";
 
 const Devices = () => {
@@ -34,6 +36,8 @@ const Devices = () => {
     </div>
     <hr className="line"></hr>
       <DeviceList />
+      <DeviceClassList />
+      <DeviceDataList />
     </div>
 
 

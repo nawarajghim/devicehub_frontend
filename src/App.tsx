@@ -10,13 +10,11 @@ import Data from "./views/data";
 import SingleDevice from "./components/SingleDevice";
 
 const App: React.FC = () => {
-  // State to track if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  // Function to handle login
   const handleLogin = (username: string, password: string) => {
-    // Simulating a login check (you would replace this with actual logic)
-    if (username === "admin" && password === "password") {
+    // TODO: login check
+    if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", "true");
     } else {
@@ -24,7 +22,6 @@ const App: React.FC = () => {
     }
   };
 
-  // On component mount, check if user is logged in (persisting login state)
   useEffect(() => {
     const loggedInStatus = localStorage.getItem("isLoggedIn");
     if (loggedInStatus === "true") {
