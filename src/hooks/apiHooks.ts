@@ -82,7 +82,7 @@ const useFetchDevice = (name: string) => {
       setError(null);
       try {
         const response = await axios.get<Device>(
-          `http://localhost:3000/api/v1/devices/${name}`
+          `http://localhost:3000/api/v1/devices/name/${name}`
         );
         setDevice(response.data);
       } catch {
