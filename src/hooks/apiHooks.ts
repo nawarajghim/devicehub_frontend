@@ -96,6 +96,63 @@ const useFetchDevice = (name: string) => {
   return { device, loading, error };
 };
 
+// Hook to post a device
+const usePostDevice = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const postDevice = async (device: Device) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.post("http://localhost:3000/api/v1/devices", device);
+    } catch {
+      setError("Failed to post device");
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { postDevice, loading, error };
+}
+
+// Hook to update a device by name
+const useUpdateDevice = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const updateDevice = async (name: string, device: Device) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.put(`http://localhost:3000/api/v1/devices/name/${name}`, device);
+    } catch {
+      setError("Failed to update device");
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { updateDevice, loading, error };
+};
+
+// Hook to delete a device by name
+const useDeleteDevice = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const deleteDevice = async (name: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.delete(`http://localhost:3000/api/v1/devices/name/${name}`);
+    } catch {
+      setError("Failed to delete device");
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { deleteDevice, loading, error };
+};
+
 /******************Device Class Hooks******************/
 
 // Hook to get all device classes
@@ -342,4 +399,7 @@ export {
   useUpdateDeviceData,
   useDeleteDeviceData,
   useFetchRuuviTagData,
+  usePostDevice,
+  useUpdateDevice,
+  useDeleteDevice,
 };
