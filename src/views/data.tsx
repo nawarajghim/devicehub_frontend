@@ -8,7 +8,7 @@ const Data: React.FC = () => {
   return (
     <div className="device-hub-container">
       <header className="header">
-        <h1>Device Hub</h1>
+        <h2>Device Hub</h2>
       </header>
       <div className="content">
         <div className="left-section">

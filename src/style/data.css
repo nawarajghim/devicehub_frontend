@@ -12,9 +12,9 @@
     margin-bottom: 20px;
   }
   
-  .header h1 {
+  .header h2 {
     font-size: 2rem;
-    color: #333;
+    color: var(--title-text);
   }
   
   .content {
@@ -137,12 +137,12 @@
 
 .close-button {
     background-color: var(--white);
-    color: #ef4444; 
-    border: 2px solid #ef4444; 
+    color: var(--red); 
+    border: 2px solid var(--red); 
 }
 
 .close-button:hover {
-    background-color: #ef4444;
+    background-color: var(--red);
     color: var(--white);
 }
   
