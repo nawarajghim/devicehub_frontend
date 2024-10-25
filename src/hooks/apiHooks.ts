@@ -1,46 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-/******************Types******************/
-
-type Device = {
-  name: string;
-  deviceClass: string;
-  deviceType: string;
-  location?: string;
-  settings?: string;
-  status: string;
-};
-
-type DeviceClass = {
-  name: string;
-  type: Array<string>;
-};
-
-type DeviceData = {
-  deviceId: number;
-  timestamp: Date;
-  data: Array<string>;
-};
-
-type Ruuvi = {
-  data: {
-    data_format: number;
-    humidity: number;
-    temperature: number;
-    pressure: number;
-    acceleration: number;
-    acceleration_x: number;
-    acceleration_y: number;
-    acceleration_z: number;
-    tx_power: number;
-    battery: number;
-    movement_counter: number;
-    measurement_sequence_number: number;
-    mac: string;
-    rssi: number | null;
-  };
-};
+import { Values } from "../types/LocalTypes";
+import { DBMessageResponse } from "../types/MessageTypes";
+import {Device, DeviceClass, DeviceData, Ruuvi} from "../types/DBTypes";
 
 /******************Device Hooks******************/
 
@@ -113,7 +75,7 @@ const usePostDevice = () => {
     }
   };
   return { postDevice, loading, error };
-}
+};
 
 // Hook to update a device by name
 const useUpdateDevice = () => {
@@ -124,7 +86,10 @@ const useUpdateDevice = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.put(`http://localhost:3000/api/v1/devices/name/${name}`, device);
+      await axios.put(
+        `http://localhost:3000/api/v1/devices/name/${name}`,
+        device
+      );
     } catch {
       setError("Failed to update device");
     } finally {
@@ -200,10 +165,9 @@ const useFetchDeviceClass = (name: string) => {
         setError("Failed to fetch device class");
       }
       setLoading(false);
-    }
+    };
     fetchDeviceClass();
-  }
-  , [name]);
+  }, [name]);
   return { deviceClass, loading, error };
 };
 
@@ -216,7 +180,10 @@ const useUpdateDeviceClass = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.put(`http://localhost:3000/api/v1/deviceclasses/${name}`, deviceClass);
+      await axios.put(
+        `http://localhost:3000/api/v1/deviceclasses/${name}`,
+        deviceClass
+      );
     } catch {
       setError("Failed to update device class");
     } finally {
@@ -244,7 +211,6 @@ const useDeleteDeviceClass = () => {
   };
   return { deleteDeviceClass, loading, error };
 };
-
 
 /******************Device Data Hooks******************/
 
@@ -328,7 +294,10 @@ const useUpdateDeviceData = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.put(`http://localhost:3000/api/v1/devicedata/${deviceId}`, deviceData);
+      await axios.put(
+        `http://localhost:3000/api/v1/devicedata/${deviceId}`,
+        deviceData
+      );
     } catch {
       setError("Failed to update device data");
     } finally {
@@ -386,6 +355,45 @@ const useFetchRuuviTagData = () => {
   return { ruuviTagData, loading, error };
 };
 
+/******************Authentication******************/
+// Hook to authenticate admin
+
+const useUser = () => {
+  const getRoleByToken = async (token: string) => {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const result = await axios.get<string>(
+      "http://localhost:3000/api/v1/login/role",
+      options
+    );
+    return result.data;
+  };
+  return { getRoleByToken };
+};
+
+const useAuth = () => {
+  const postLogin = async (values: Values) => {
+    const result = await axios.post<DBMessageResponse>(
+      "http://localhost:3000/api/v1/login",
+      values,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log("result", result);
+    if (result) {
+      return result;
+    } else {
+      return null;
+    }
+  };
+  return { postLogin };
+};
 export {
   useFetchDevices,
   useFetchDevice,
@@ -402,4 +410,6 @@ export {
   usePostDevice,
   useUpdateDevice,
   useDeleteDevice,
+  useUser,
+  useAuth,
 };
