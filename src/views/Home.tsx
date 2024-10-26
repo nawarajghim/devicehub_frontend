@@ -23,12 +23,6 @@ const Home = () => {
         <div className="box">Device 6</div>
       </div>
     </div>
-
-
-
-
-
-
     </div>
   );
 };
