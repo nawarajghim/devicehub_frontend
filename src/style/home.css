@@ -31,16 +31,22 @@
     margin-right: 10px;
     border: 1px solid #f0f0f0;
     border-radius: 30px;
-    background-image: url('/src/assets/nokia-logo.png');
-    background-repeat: no-repeat;
-    background-size: 200px;
+   
+
+}
+.home-text{
+    color: var(--dark-text);
+    width: 400px;
+    padding-left: 20px;
+
 }
 
 .home-boxes {
+    margin-top: 140px;
     display: grid;
     grid-template-columns: repeat(2, 1fr); /* 3 columns */
-    grid-template-rows: repeat(3, 1fr);    /* 2 rows */
-    gap: 20px; /* Optional: space between the boxes */
+    grid-template-rows: repeat(2, 1fr);    /* 2 rows */
+    gap: 10px; /* Optional: space between the boxes */
    
   }
   
@@ -48,7 +54,48 @@
     background-color: white;
     padding: 20px;
     text-align: center;
-    border: 1px solid #f7f7f7;
-    border-radius: 30px;
+    border: 1px solid #e1e1e1;
+    border-radius: 20px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .home-img{
+    position: fixed;
+    width: 310px;
+    right: 120px;
+    top: 200px;
+  }
+
+  .home-iconi{
+    width: 40px;
+    height: 40px;
+    background-color: #39DE54;
+    border-radius: 10px;
+  }
+
+  .home-star{
+    margin-top: 11px;
+  }
+
+  .star1{
+    background-color: #39DE54;
+  }
+
+  .star2{
+    background-color: #01D1FA;
+  }
+
+  .star3{
+    background-color: #9a6ce8;
+  }
+
+  .star4{
+    background-color: #FFC90E;
+  }
+  .home-dots{
+    position: absolute;
+    margin-top: -30px;
+    margin-left: 40px;
   }
   
