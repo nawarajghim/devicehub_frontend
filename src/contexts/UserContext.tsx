@@ -1,14 +1,16 @@
 import React, { createContext, useState } from "react";
 import { useAuth, useUser } from "../hooks/apiHooks";
 import { AuthContextType, Values } from "../types/LocalTypes";
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext<AuthContextType | null>(null);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<string | null>(null);
   const { postLogin } = useAuth();
-  const { getRoleByToken } = useUser();
+  const { postPasswordChange } = useUser();
   const isLoggedIn = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const handleLogin = async (values: Values) => {
     try {
@@ -28,20 +30,18 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await localStorage.removeItem("token");
       setRole(null);
+      navigate("/");
     } catch (error) {
       console.error((error as Error).message);
     }
   };
 
-  const handleAutoLogin = async () => {
+  const handleChangePassword = async (password: string) => {
     try {
-      const token = await localStorage.getItem("token");
-      console.log(token, "token");
-      if (token) {
-        const result = await getRoleByToken(token);
-        if (result) {
-          setRole(result);
-        }
+      const response = await postPasswordChange(password);
+      if (response) {
+        alert("Password changed successfully");
+        navigate("/");
       }
     } catch (error) {
       console.error((error as Error).message);
@@ -54,8 +54,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
         role,
         handleLogin,
         handleLogout,
-        handleAutoLogin,
         isLoggedIn,
+        handleChangePassword,
       }}
     >
       {children}

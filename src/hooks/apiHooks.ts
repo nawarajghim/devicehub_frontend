@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Values } from "../types/LocalTypes";
-import { DBMessageResponse } from "../types/MessageTypes";
-import {Device, DeviceClass, DeviceData, Ruuvi} from "../types/DBTypes";
+import { DBMessageResponse, MessageResponse } from "../types/MessageTypes";
+import { Device, DeviceClass, DeviceData, Ruuvi } from "../types/DBTypes";
 
 /******************Device Hooks******************/
 
@@ -371,7 +371,26 @@ const useUser = () => {
     );
     return result.data;
   };
-  return { getRoleByToken };
+
+  const postPasswordChange = async (password: string) => {
+    const token = localStorage.getItem("token");
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const result = await axios.post<MessageResponse>(
+      "http://localhost:3000/api/v1/login/password",
+      { password },
+      options
+    );
+    if (result) {
+      return result;
+    } else {
+      return null;
+    }
+  };
+  return { postPasswordChange, getRoleByToken };
 };
 
 const useAuth = () => {
