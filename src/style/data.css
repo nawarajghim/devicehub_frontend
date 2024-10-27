@@ -60,6 +60,31 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .statistic {
+    position: relative;
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-height: 200px;
+  }
+  
+  .statistic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .range-dropdown {
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--gray);
+    background-color: var(--white);
+    color: var(--dark-text);
+    cursor: pointer;
+  }
   
   /* Styling for RightPanel (Info section) */
   .info-section, .additional-info {
