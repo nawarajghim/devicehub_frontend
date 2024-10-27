@@ -1,11 +1,33 @@
-import {Link} from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import DeviceClassList from "../components/DeviceClasses";
 import DeviceDataList from "../components/DeviceData";
-import { useFetchDevices } from "../hooks/apiHooks";
+import DeleteConfirmation from "../components/DeleteConfirmation";
+import { useFetchDevices, useDeleteDevice } from "../hooks/apiHooks";
 
 const Devices = () => {
-  const { devices, loading, error } = useFetchDevices();
-  console.log(devices);
+  const { devices, loading, error, fetchDevices } = useFetchDevices();
+  const { deleteDevice } = useDeleteDevice();
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [deviceToDelete, setDeviceToDelete] = useState<string | null>(null);
+
+  const handleDelete = async (deviceName: string) => {
+    setDeviceToDelete(deviceName);
+    setModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (deviceToDelete) {
+      await deleteDevice(deviceToDelete);
+      await fetchDevices();
+    }
+    setModalOpen(false);
+  };
+
+  const cancelDelete = () => {
+    setModalOpen(false);
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -24,6 +46,7 @@ const Devices = () => {
             <h4 className="card-info">Type</h4>
             <h4 className="card-info">Location</h4>
             <h4 className="card-info">Status</h4>
+            <h4 className="card-info">Actions</h4>
           </div>
 
           {devices.map((device) => (
@@ -36,6 +59,13 @@ const Devices = () => {
               <Link to={`/devices/name/${device.name}`}>
                 <button className="device-button">Open</button>
               </Link>
+              {/* Delete Button */}
+              <button
+                className="device-button"
+                onClick={() => handleDelete(device.name)}
+              >
+                Delete
+              </button>
             </div>
           ))}
 
@@ -44,6 +74,14 @@ const Devices = () => {
           <DeviceDataList />
         </div>
       </div>
+
+      {/* Confirmation Modal for deletion */}
+      <DeleteConfirmation
+        isOpen={isModalOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        message="Are you sure you want to delete this device?"
+      />
     </>
   );
 };

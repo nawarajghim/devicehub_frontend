@@ -12,24 +12,26 @@ const useFetchDevices = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchDevices = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get<Device[]>(
+        "http://localhost:3000/api/v1/devices"
+      );
+      setDevices(response.data);
+    } catch {
+      setError("Failed to fetch devices");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchDevices = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await axios.get<Device[]>(
-          "http://localhost:3000/api/v1/devices"
-        );
-        setDevices(response.data);
-      } catch {
-        setError("Failed to fetch devices");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchDevices();
   }, []);
-  return { devices, loading, error };
+
+  return { devices, loading, error, fetchDevices };
 };
 
 // Hook to get a single device by name
