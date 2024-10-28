@@ -2,9 +2,10 @@ import React from "react";
 import { useFetchDevices } from "../hooks/apiHooks";
 import { Link } from "react-router-dom";
 
-const DeviceList: React.FC = () => {
+const DeviceList: React.FC<{ onDelete: (deviceName: string) => void }> = ({
+  onDelete,
+}) => {
   const { devices, loading, error } = useFetchDevices();
-  console.log(devices);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -18,6 +19,7 @@ const DeviceList: React.FC = () => {
             <Link to={`/devices/name/${device.name}`}>
               {device.name} - {device.deviceType} - {device.location}
             </Link>
+            <button onClick={() => onDelete(device.name)}>Delete</button>
           </li>
         ))}
       </ul>
