@@ -60,11 +60,18 @@
     height: 120px;
   }
 
-  .home-img{
+  .home-img1{
     position: fixed;
-    width: 310px;
-    right: 120px;
-    top: 200px;
+    width: 150px;
+    right: 190px;
+    top: 250px;
+  }
+
+  .home-img2{
+    position: fixed;
+    width: 200px;
+    right: 180px;
+    top: 190px;
   }
 
   .home-iconi{
