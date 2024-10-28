@@ -32,7 +32,7 @@ header {
   }
 
   .navi-overview {
-    color: black !important;
+    color: #101010!important;
     text-decoration: none;
     display: none;
   }
