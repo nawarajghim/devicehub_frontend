@@ -3,14 +3,40 @@ import { Link } from "react-router-dom";
 import DeviceClassList from "../components/DeviceClasses";
 import DeviceDataList from "../components/DeviceData";
 import DeleteConfirmation from "../components/DeleteConfirmation";
-import { useFetchDevices, useDeleteDevice } from "../hooks/apiHooks";
+import {
+  useFetchDevices,
+  useDeleteDevice,
+  usePostDevice,
+} from "../hooks/apiHooks";
+import { Device } from "../types/DBTypes";
 
 const Devices = () => {
   const { devices, loading, error, fetchDevices } = useFetchDevices();
   const { deleteDevice } = useDeleteDevice();
+  const { postDevice } = usePostDevice();
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [deviceToDelete, setDeviceToDelete] = useState<string | null>(null);
+
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [newDevice, setNewDevice] = useState<Device>({
+    name: "",
+    deviceClass: "",
+    deviceType: "",
+    location: "",
+    status: "",
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setNewDevice({ ...newDevice, [name]: value });
+  };
+
+  const createDevice = async () => {
+    await postDevice(newDevice);
+    await fetchDevices();
+    setAddModalOpen(false);
+  };
 
   const handleDelete = async (deviceName: string) => {
     setDeviceToDelete(deviceName);
@@ -36,7 +62,7 @@ const Devices = () => {
     <>
       <div>
         <h2 className="h2-title">Device Hub</h2>
-        <hr className="line"></hr>
+        <hr className="line" />
         <h3 className="device-h3">Devices</h3>
 
         <div className="device-container">
@@ -59,7 +85,6 @@ const Devices = () => {
               <Link to={`/devices/name/${device.name}`}>
                 <button className="device-button">Open</button>
               </Link>
-              {/* Delete Button */}
               <button
                 className="device-button"
                 onClick={() => handleDelete(device.name)}
@@ -69,19 +94,74 @@ const Devices = () => {
             </div>
           ))}
 
-          <hr className="line"></hr>
+          <hr className="line" />
           <DeviceClassList />
           <DeviceDataList />
         </div>
-      </div>
 
-      {/* Confirmation Modal for deletion */}
-      <DeleteConfirmation
-        isOpen={isModalOpen}
-        onClose={cancelDelete}
-        onConfirm={confirmDelete}
-        message="Are you sure you want to delete this device?"
-      />
+        {/* Add Device Button */}
+        <button
+          className="add-device-button"
+          onClick={() => setAddModalOpen(true)}
+        >
+          Add Device
+        </button>
+
+        {/* Modal for Adding a New Device */}
+        {isAddModalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <h3>Add a New Device</h3>
+              <input
+                type="text"
+                name="name"
+                placeholder="Device Name"
+                value={newDevice.name}
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                name="deviceClass"
+                placeholder="Device Class"
+                value={newDevice.deviceClass}
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                name="deviceType"
+                placeholder="Device Type"
+                value={newDevice.deviceType}
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                name="location"
+                placeholder="Location"
+                value={newDevice.location}
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                name="status"
+                placeholder="Status"
+                value={newDevice.status}
+                onChange={handleInputChange}
+              />
+
+              <button onClick={createDevice}>Submit</button>
+              <button onClick={() => setAddModalOpen(false)}>Cancel</button>
+            </div>
+          </div>
+        )}
+
+        {/* Confirmation Modal for deletion */}
+        <DeleteConfirmation
+          isOpen={isModalOpen}
+          onClose={cancelDelete}
+          onConfirm={confirmDelete}
+          message="Are you sure you want to delete this device?"
+        />
+      </div>
     </>
   );
 };
