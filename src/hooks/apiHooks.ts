@@ -345,7 +345,7 @@ const useFetchRuuviTagData = () => {
           "http://localhost:3000/api/v1/ruuvi"
         );
         if (response.data) {
-          setRuuviTagData(response.data.slice(0, 10));
+          setRuuviTagData(response.data);
         } else {
           setError("No RuuviTag data found");
         }

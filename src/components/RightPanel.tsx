@@ -1,4 +1,3 @@
-import React from "react";
 import AdditionalInfo from "./AdditionalInfo";
 import { Device } from "../types/DBTypes";
 

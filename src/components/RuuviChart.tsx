@@ -1,5 +1,4 @@
-// RuuviChart.js
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -35,7 +34,7 @@ type ChartData = {
   }[];
 };
 
-const RuuviChart: React.FC = () => {
+const RuuviChart = ({ range }: { range: string }) => {
   const { ruuviTagData, loading, error } = useFetchRuuviTagData();
   const [data, setData] = useState<ChartData>({
     labels: [],
@@ -52,46 +51,147 @@ const RuuviChart: React.FC = () => {
       return;
     }
 
-    // Get the current time
+    let filteredData;
     const now = new Date();
-    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
 
-    // Filter data for the last hour
-    const filteredData = ruuviTagData.filter((ruuvi) => {
-      const timestamp = new Date(ruuvi.timestamp);
-      return timestamp >= oneHourAgo && timestamp <= now;
-    });
+    // filter data based on selected range
+    switch (range) {
+      case "1h":
+        filteredData = ruuviTagData.filter((ruuvi) => {
+          const timestamp = new Date(ruuvi.timestamp.toLocaleString());
+          return timestamp >= new Date(now.getTime() - 60 * 60 * 1000);
+        });
+        console.log(filteredData);
+        break;
+      case "1day":
+        filteredData = ruuviTagData.filter((ruuvi) => {
+          const timestamp = new Date(ruuvi.timestamp.toLocaleString());
+          return timestamp >= new Date(now.getTime() - 24 * 60 * 60 * 1000);
+        });
+        console.log(filteredData);
+        break;
+      case "1week":
+        filteredData = ruuviTagData.filter((ruuvi) => {
+          const timestamp = new Date(ruuvi.timestamp.toLocaleString());
+          return timestamp >= new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        });
+        console.log(filteredData);
+        break;
+      case "1month":
+        filteredData = ruuviTagData.filter((ruuvi) => {
+          const timestamp = new Date(ruuvi.timestamp.toLocaleString());
+          return (
+            timestamp >= new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+          );
+        });
+        console.log(filteredData);
+        break;
+      case "1year":
+        filteredData = ruuviTagData.filter((ruuvi) => {
+          const timestamp = new Date(ruuvi.timestamp);
+          return (
+            timestamp >= new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000)
+          );
+        });
+        console.log(filteredData);
+        break;
+      default:
+        filteredData = ruuviTagData;
+        break;
+    }
 
-    if (filteredData.length === 0) {
-      console.log("No data available in the last hour");
+    if (!filteredData || filteredData.length === 0) {
+      console.log("No data available for the selected range");
+      setData({ labels: [], datasets: [] });
       return;
     }
 
-    // Create unique MAC addresses
     const macs = new Set(filteredData.map((ruuvi) => ruuvi.data.mac));
-
     const macData = Array.from(macs).map((mac) => {
       const data = filteredData.filter((ruuvi) => ruuvi.data.mac === mac);
-      return {
-        mac: mac,
-        data: data,
-      };
+      return { mac: mac, data: data };
     });
 
-    // Format the labels for hours and minutes
-    const labels = macData[0].data.map((data) => {
-      const date = new Date(data.timestamp);
-      return `${date.getHours().toString().padStart(2, "0")}:${date
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")}`;
-    });
+    const formatLabels = (data: { timestamp: Date }[], range: string) => {
+      let formattedLabels = [];
+
+      switch (range) {
+        case "1h":
+          formattedLabels = data.map((data: { timestamp: Date }) => {
+            const date = new Date(data.timestamp);
+            return date.toLocaleTimeString("fi-FI", {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+          });
+          break;
+
+        case "1day":
+          formattedLabels = data.map(
+            (data: { timestamp: Date }) => {
+              const date = new Date(data.timestamp);
+                return date.toLocaleTimeString("fi-FI", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+            }
+          );
+          break;
+        case "1week":
+          formattedLabels = data.map(
+            (data: { timestamp: Date }) => {
+              const date = new Date(data.timestamp);
+                return date.toLocaleDateString("fi-FI", {
+                  day: "2-digit",
+                  month: "2-digit",
+                });
+            }
+          );
+          break;
+        case "1month":
+          formattedLabels = data.map(
+            (data: { timestamp: Date }) => {
+              const date = new Date(data.timestamp);
+                return date.toLocaleDateString("fi-FI", {
+                  day: "2-digit",
+                  month: "2-digit",
+                });
+            }
+          );
+          break;
+
+        case "1year":
+          formattedLabels = data.map((data: { timestamp: Date }) => {
+            const date = new Date(data.timestamp);
+            return date.toLocaleDateString("fi-FI", {
+              month: "2-digit",
+              year: "numeric",
+            });
+          });
+          console.log(formattedLabels);
+          break;
+
+        default:
+          formattedLabels = data.map((data:{timestamp: Date}) => {
+            const date = new Date(data.timestamp);
+            return date.toLocaleDateString("fi-FI", {
+              month: "2-digit",
+              day: "2-digit",
+            });
+          });
+          break;
+      }
+
+      return formattedLabels;
+    };
+
+    const labels = formatLabels(filteredData, range);
 
     const chartData = {
-      labels: labels,
+      labels: labels.reverse(),
       datasets: macData.map((macItem) => ({
         label: "RuuviTag MAC:" + macItem.mac,
-        data: macItem.data.map((data) => data.data.temperature),
+        data: macItem.data.map((data) => data.data.temperature).reverse(),
         fill: false,
         backgroundColor: "rgba(75, 192, 192, 0.5)",
         borderColor: "rgba(75, 192, 192, 1)",
@@ -100,7 +200,7 @@ const RuuviChart: React.FC = () => {
     };
 
     setData(chartData);
-  }, [ruuviTagData, loading, error]);
+  }, [ruuviTagData, loading, error, range]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -117,7 +217,7 @@ const RuuviChart: React.FC = () => {
             },
             title: {
               display: true,
-              text: "Temperature Data (°C) for the last hour",
+              text: `Temperature Data (°C) for the last ${range.split("1")[1]}`,
             },
           },
           scales: {
