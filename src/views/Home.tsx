@@ -3,6 +3,9 @@ import { useFetchDevices } from "../hooks/apiHooks";
 const Home = () => {
   const { devices, loading, error } = useFetchDevices();
 
+  // take only four first devices
+  const devicesToShow = devices ? devices.slice(0, 4) : [];
+
   if (loading) return <div>Loading...</div>;
 
   if (error) return <div>{error}</div>;
@@ -39,7 +42,7 @@ const Home = () => {
           alt="logometropolia"
         />
         <div className="home-boxes">
-          {devices.map((device, index) => {
+          {devicesToShow.map((device, index) => {
             const starClass = `star${(index % 4) + 1}`;
             return (
               <div className="box" key={device.name}>
