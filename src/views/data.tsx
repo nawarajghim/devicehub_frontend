@@ -17,23 +17,21 @@ const Data: React.FC = () => {
   }
 
   return (
-    <>
-      <div>
-        <h2 className="h2-title">Device Hub</h2>
-        <hr className="line" />
-        <div className="device-hub-container">
-          <div className="content">
-            <div className="left-section">
-              <h2>{deviceName}</h2>
-              <LeftPanel />
-            </div>
-            <div className="right-section">
-              <RightPanel device={device} />
-            </div>
+    <div className="data-wrapper">
+      <h2 className="h2-title">Device Hub</h2>
+      <hr className="line" />
+      <div className="device-hub-container">
+        <div className="content">
+          <div className="left-section">
+            <h2>{deviceName}</h2>
+            <LeftPanel />
+          </div>
+          <div className="right-section">
+            <RightPanel device={device} />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
