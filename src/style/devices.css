@@ -9,8 +9,6 @@
 }
 .device-h3{
     margin-left: 20px;
-    margin-top: 50px;
-
 }
 
 .device-container{
@@ -19,6 +17,7 @@
 
 .device-card{
     display: flex;
+    align-items: center;
 }
 .device-info{
     background-color: #f7f8fA;
@@ -34,6 +33,7 @@
 .device-card p{
     flex: 2; 
     padding-left: 35px;
+    font-size: 15px;
 }
 
 /* .card-info{
@@ -49,5 +49,22 @@
     background-color: var(--purple);
     color: white;
     border: none;
+    text-align: center;
+}
 
+.add-device-button {
+    margin-left: 20px;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--purple);
+    color: white;
+    border: none;
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+    align-items: center;
 }

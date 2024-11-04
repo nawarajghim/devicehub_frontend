@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import DeviceClassList from "../components/DeviceClasses";
-import DeviceDataList from "../components/DeviceData";
 import DeleteConfirmation from "../components/DeleteConfirmation";
 import {
   useFetchDevices,
@@ -63,8 +61,16 @@ const Devices = () => {
       <div>
         <h2 className="h2-title">Device Hub</h2>
         <hr className="line" />
-        <h3 className="device-h3">Devices</h3>
-
+        <div className="button-container">
+          <h3 className="device-h3">Devices</h3>
+          {/* Add Device Button */}
+          <button
+            className="add-device-button"
+            onClick={() => setAddModalOpen(true)}
+          >
+            Add Device
+          </button>
+        </div>
         <div className="device-container">
           <div className="device-card device-info">
             <h4>Device name</h4>
@@ -95,18 +101,7 @@ const Devices = () => {
           ))}
 
           <hr className="line" />
-          <DeviceClassList />
-          <DeviceDataList />
         </div>
-
-        {/* Add Device Button */}
-        <button
-          className="add-device-button"
-          onClick={() => setAddModalOpen(true)}
-        >
-          Add Device
-        </button>
-
         {/* Modal for Adding a New Device */}
         {isAddModalOpen && (
           <div className="modal">

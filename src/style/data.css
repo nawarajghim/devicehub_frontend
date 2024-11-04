@@ -1,7 +1,6 @@
 @import url('../index.css');
 
 .device-hub-container {
-    font-family: Arial, sans-serif;
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
@@ -30,6 +29,8 @@
   
   .right-section {
     flex: 1;
+    align-self: flex-start;
+    margin-top: 5rem;
   }
   
   .left-section h2 {
@@ -119,6 +120,10 @@
   
   .info-section li {
     margin: 5px 0;
+    border:  1px solid #EFF0F4;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
   
   .info-section li span {
