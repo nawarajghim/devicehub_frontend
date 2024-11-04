@@ -145,6 +145,13 @@
     font-weight: bold;
     margin-bottom: 5px;
 }
+
+.form-field select {
+    font: inherit;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
   
   .modal-content h3 {
     margin-top: 0;
