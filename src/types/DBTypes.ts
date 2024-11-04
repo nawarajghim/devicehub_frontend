@@ -35,6 +35,7 @@ type Ruuvi = {
     mac: string;
     rssi: number | null;
   };
+  timestamp: Date;
 };
 
 type Admin = {

@@ -1,6 +1,6 @@
-import React from 'react';
-import Statistic from './Statistics';
-import ManagementSection from './ManagmentSection';
+import React from "react";
+import Statistic from "./Statistics";
+import ManagementSection from "./ManagmentSection";
 
 const LeftPanel: React.FC = () => {
   return (
@@ -9,6 +9,6 @@ const LeftPanel: React.FC = () => {
       <ManagementSection />
     </div>
   );
-}
+};
 
 export default LeftPanel;

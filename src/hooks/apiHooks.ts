@@ -344,7 +344,11 @@ const useFetchRuuviTagData = () => {
         const response = await axios.get<Ruuvi[]>(
           "http://localhost:3000/api/v1/ruuvi"
         );
-        setRuuviTagData(response.data);
+        if (response.data) {
+          setRuuviTagData(response.data);
+        } else {
+          setError("No RuuviTag data found");
+        }
       } catch {
         setError("Failed to fetch RuuviTag data");
       } finally {

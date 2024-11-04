@@ -7,7 +7,7 @@ import "./App.css";
 import Login from "./components/Login";
 
 import SingleDevice from "./components/SingleDevice";
-import Data from "./views/Data";
+import Data from "./views/data";
 import { UserProvider } from "./contexts/UserContext";
 
 // App Component

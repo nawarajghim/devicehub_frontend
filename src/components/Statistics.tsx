@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import RuuviChart from './RuuviChart';
 
 const Statistic: React.FC = () => {
-  const [range, setRange] = useState('1h'); // Default selection
+  const [range, setRange] = useState('1h');
 
   // Handler to update selected range
   const handleRangeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -20,7 +21,7 @@ const Statistic: React.FC = () => {
           <option value="1year">1 Year</option>
         </select>
       </div>
-      {/* Graph or chart component would go here */}
+      <RuuviChart range={range} />
     </div>
   );
 }
