@@ -21,7 +21,8 @@ const Login: React.FC = () => {
 
     try {
       await handleLogin({ username, password });
-      navigate("/");
+      console.log(localStorage.getItem("token"));
+      // navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
       setError("Invalid username or password");

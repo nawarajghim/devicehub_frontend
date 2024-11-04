@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DeleteConfirmation from "../components/DeleteConfirmation";
 import {
   useFetchDevices,
   useDeleteDevice,
   usePostDevice,
+  useUser,
 } from "../hooks/apiHooks";
 import { Device } from "../types/DBTypes";
 
 const Devices = () => {
+  const { getRoleByToken } = useUser();
+  const [role, setRole] = useState<string | null>(null);
   const { devices, loading, error, fetchDevices } = useFetchDevices();
   const { deleteDevice } = useDeleteDevice();
   const { postDevice } = usePostDevice();
@@ -53,6 +56,23 @@ const Devices = () => {
     setModalOpen(false);
   };
 
+  const implementCondition = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const role = await getRoleByToken();
+      if (role === "admin") {
+        setRole("admin");
+      } else {
+        setRole("user");
+      }
+    }
+  };
+
+  useEffect(() => {
+    implementCondition();
+    fetchDevices();
+  }, []);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -64,12 +84,14 @@ const Devices = () => {
         <div className="button-container">
           <h3 className="device-h3">Devices</h3>
           {/* Add Device Button */}
-          <button
-            className="add-device-button"
-            onClick={() => setAddModalOpen(true)}
-          >
-            Add Device
-          </button>
+          {role === "admin" && (
+            <button
+              className="add-device-button"
+              onClick={() => setAddModalOpen(true)}
+            >
+              Add Device
+            </button>
+          )}
         </div>
         <div className="device-container">
           <div className="device-card device-info">
@@ -91,12 +113,14 @@ const Devices = () => {
               <Link to={`/devices/name/${device.name}`}>
                 <button className="device-button">Open</button>
               </Link>
-              <button
-                className="device-button"
-                onClick={() => handleDelete(device.name)}
-              >
-                Delete
-              </button>
+              {role === "admin" && (
+                <button
+                  className="device-button"
+                  onClick={() => handleDelete(device.name)}
+                >
+                  Delete
+                </button>
+              )}
             </div>
           ))}
 
