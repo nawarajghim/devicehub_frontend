@@ -3,9 +3,6 @@ const Home = () => {
     <div>
       <h2 className="h2-title">Device Hub</h2>
       <hr className="line"></hr>
-
-      {/* Your Home content here */}
-
       <div className="home-container">
       <div className="home-intro">
       {/*<img className="home-img" src="/src/assets/nokia1.jpg" alt="logo" />*/}
