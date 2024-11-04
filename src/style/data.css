@@ -81,7 +81,7 @@
     cursor: pointer;
     font: inherit;
   }
-  
+
   /* Styling for RightPanel (Info section) */
   .info-section, .additional-info {
     background-color: var(--white);

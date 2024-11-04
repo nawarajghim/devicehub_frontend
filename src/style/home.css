@@ -90,6 +90,11 @@
     padding: 0;
     margin: 0;
     padding-top: 10px;
+    color: var(--dark-text);
+  }
+
+  .box:hover {
+    background-color: #f7f8fA;
   }
 
   .star1{

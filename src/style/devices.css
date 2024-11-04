@@ -30,6 +30,10 @@
     flex: 1; 
     padding-left: 10px;
 }
+.device-card:hover{
+    background-color: #f0f0f0;
+}
+
 .device-card p{
     flex: 2; 
     padding-left: 35px;
@@ -52,6 +56,10 @@
     text-align: center;
 }
 
+.device-button:hover{
+    background-color: #6a5acd;
+}
+
 .add-device-button {
     margin-left: 20px;
     margin-top: 20px;
@@ -60,6 +68,10 @@
     background-color: var(--purple);
     color: white;
     border: none;
+}
+
+.add-device-button:hover{
+    background-color: #6a5acd;
 }
 
 .button-container{

@@ -1,3 +1,4 @@
+import {Link} from "react-router-dom";
 import { useFetchDevices } from "../hooks/apiHooks";
 
 const Home = () => {
@@ -45,6 +46,7 @@ const Home = () => {
           {devicesToShow.map((device, index) => {
             const starClass = `star${(index % 4) + 1}`;
             return (
+              <Link to={`/devices/name/${device.name}`} key={device.name}>
               <div className="box" key={device.name}>
                 <div className={`home-iconi ${starClass}`}>
                   <img
@@ -61,6 +63,7 @@ const Home = () => {
                 <p>{device.name}</p>
                 <p>{device.location}</p>
               </div>
+              </Link>
             );
           })}
         </div>
