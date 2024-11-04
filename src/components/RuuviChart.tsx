@@ -34,12 +34,32 @@ type ChartData = {
   }[];
 };
 
-const RuuviChart = ({ range }: { range: string }) => {
+// accept range and selected as props
+const RuuviChart = ({
+  range,
+  selected,
+}: {
+  range: string;
+  selected: string;
+}) => {
   const { ruuviTagData, loading, error } = useFetchRuuviTagData();
   const [data, setData] = useState<ChartData>({
     labels: [],
     datasets: [],
   });
+
+  function assignMetrics(selected: string) {
+    switch (selected) {
+      case "temperature":
+        return "°C";
+      case "humidity":
+        return "%";
+      case "pressure":
+        return "hPa";
+      default:
+        return "°C";
+    }
+  }
 
   useEffect(() => {
     if (loading || error) {
@@ -127,37 +147,31 @@ const RuuviChart = ({ range }: { range: string }) => {
           break;
 
         case "1day":
-          formattedLabels = data.map(
-            (data: { timestamp: Date }) => {
-              const date = new Date(data.timestamp);
-                return date.toLocaleTimeString("fi-FI", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                });
-            }
-          );
+          formattedLabels = data.map((data: { timestamp: Date }) => {
+            const date = new Date(data.timestamp);
+            return date.toLocaleTimeString("fi-FI", {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+          });
           break;
         case "1week":
-          formattedLabels = data.map(
-            (data: { timestamp: Date }) => {
-              const date = new Date(data.timestamp);
-                return date.toLocaleDateString("fi-FI", {
-                  day: "2-digit",
-                  month: "2-digit",
-                });
-            }
-          );
+          formattedLabels = data.map((data: { timestamp: Date }) => {
+            const date = new Date(data.timestamp);
+            return date.toLocaleDateString("fi-FI", {
+              day: "2-digit",
+              month: "2-digit",
+            });
+          });
           break;
         case "1month":
-          formattedLabels = data.map(
-            (data: { timestamp: Date }) => {
-              const date = new Date(data.timestamp);
-                return date.toLocaleDateString("fi-FI", {
-                  day: "2-digit",
-                  month: "2-digit",
-                });
-            }
-          );
+          formattedLabels = data.map((data: { timestamp: Date }) => {
+            const date = new Date(data.timestamp);
+            return date.toLocaleDateString("fi-FI", {
+              day: "2-digit",
+              month: "2-digit",
+            });
+          });
           break;
 
         case "1year":
@@ -172,7 +186,7 @@ const RuuviChart = ({ range }: { range: string }) => {
           break;
 
         default:
-          formattedLabels = data.map((data:{timestamp: Date}) => {
+          formattedLabels = data.map((data: { timestamp: Date }) => {
             const date = new Date(data.timestamp);
             return date.toLocaleDateString("fi-FI", {
               month: "2-digit",
@@ -187,11 +201,27 @@ const RuuviChart = ({ range }: { range: string }) => {
 
     const labels = formatLabels(filteredData, range);
 
+    console.log(macData);
+
+    // set data based on selected value
     const chartData = {
       labels: labels.reverse(),
       datasets: macData.map((macItem) => ({
         label: "RuuviTag MAC:" + macItem.mac,
-        data: macItem.data.map((data) => data.data.temperature).reverse(),
+        data: macItem.data
+          .map((data) => {
+            switch (selected) {
+              case "temperature":
+                return data.data.temperature;
+              case "humidity":
+                return data.data.humidity;
+              case "pressure":
+                return data.data.pressure;
+              default:
+                return data.data.temperature;
+            }
+          })
+          .reverse(),
         fill: false,
         backgroundColor: "rgba(75, 192, 192, 0.5)",
         borderColor: "rgba(75, 192, 192, 1)",
@@ -200,7 +230,7 @@ const RuuviChart = ({ range }: { range: string }) => {
     };
 
     setData(chartData);
-  }, [ruuviTagData, loading, error, range]);
+  }, [ruuviTagData, loading, error, range, selected]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -217,20 +247,20 @@ const RuuviChart = ({ range }: { range: string }) => {
             },
             title: {
               display: true,
-              text: `Temperature Data (°C) for the last ${range.split("1")[1]}`,
+              text: `${selected.toUpperCase()} data for the last ${range}`,
             },
           },
           scales: {
             x: {
               title: {
                 display: true,
-                text: "Time (HH:MM)",
+                text: "Time",
               },
             },
             y: {
               title: {
                 display: true,
-                text: "Temperature (°C)",
+                text: assignMetrics(selected),
               },
               beginAtZero: true,
             },
