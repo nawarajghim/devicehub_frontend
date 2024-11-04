@@ -31,6 +31,14 @@ header {
     display: block;
   }
 
+  .navi-overview {
+    color: #101010!important;
+    text-decoration: none;
+    display: none;
+  }
+
+
+
 svg{
   margin-left: -45px;
   margin-bottom: -4px;
@@ -61,17 +69,17 @@ svg{
   fill: var(--purple);
 }
 
-.navi-p-icon-O{
+.navi-p-icon-DO{
   fill: var(--purple);
 }
 
 .navbar.home {
-  transform: translateY(0);
-  color: #000;
+  transform: translateY(-55px);
+  color: var(--purple);
 }
 
 .navbar.devices {
-  transform: translateY(55px);
+  transform: translateY(0px);
 }
 
 .navbar.login {
@@ -81,6 +89,7 @@ svg{
 .navbar.data {
   transform: translateY(55px);
 }
+
 
 /*navbar icons*/
 .top-nav{
