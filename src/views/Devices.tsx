@@ -116,6 +116,17 @@ const Devices = () => {
     "Motion Sensor",
   ];
   const statuses = ["Active", "Inactive"];
+  const locations = [
+    "Nokia Garage",
+    "Nokia Campus",
+    "Alternating",
+    "Helsinki",
+    "Espoo",
+    "Vantaa",
+    "Tampere",
+    "Turku",
+    "Oulu",
+  ];
 
   return (
     <>
@@ -226,51 +237,58 @@ const Devices = () => {
         {isUpdateModalOpen && deviceToUpdate && (
           <div className="modal">
             <div className="modal-content">
-              <h3>Update Device</h3>
-              <h4>{deviceToUpdate.name}</h4>
-              <select
-                name="deviceClass"
-                value={deviceToUpdate.deviceClass}
-                onChange={handleUpdateInputChange}
-              >
-                <option value="">Select Device Class</option>
-                {deviceClasses.map((deviceClass) => (
-                  <option key={deviceClass} value={deviceClass}>
-                    {deviceClass}
-                  </option>
-                ))}
-              </select>
-              <select
-                name="deviceType"
-                value={deviceToUpdate.deviceType}
-                onChange={handleUpdateInputChange}
-              >
-                <option value="">Select Device Type</option>
-                {deviceTypes.map((deviceType) => (
-                  <option key={deviceType} value={deviceType}>
-                    {deviceType}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="text"
-                name="location"
-                placeholder="Location"
-                value={deviceToUpdate.location}
-                onChange={handleUpdateInputChange}
-              />
-              <select
-                name="status"
-                value={deviceToUpdate.status}
-                onChange={handleUpdateInputChange}
-              >
-                <option value="">Select Device Status</option>
-                {statuses.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
+              <div className="form-field">
+                <h3>Modify Device</h3>
+                <h4>{deviceToUpdate.name}</h4>
+                <p>Device Class</p>
+                <select
+                  name="deviceClass"
+                  value={deviceToUpdate.deviceClass}
+                  onChange={handleUpdateInputChange}
+                >
+                  {deviceClasses.map((deviceClass) => (
+                    <option key={deviceClass} value={deviceClass}>
+                      {deviceClass}
+                    </option>
+                  ))}
+                </select>
+                <p>Device Type</p>
+                <select
+                  name="deviceType"
+                  value={deviceToUpdate.deviceType}
+                  onChange={handleUpdateInputChange}
+                >
+                  {deviceTypes.map((deviceType) => (
+                    <option key={deviceType} value={deviceType}>
+                      {deviceType}
+                    </option>
+                  ))}
+                </select>
+                <p>Location</p>
+                <select
+                  name="location"
+                  value={deviceToUpdate.location}
+                  onChange={handleUpdateInputChange}
+                >
+                  {locations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
+                </select>
+                <p>Status</p>
+                <select
+                  name="status"
+                  value={deviceToUpdate.status}
+                  onChange={handleUpdateInputChange}
+                >
+                  {statuses.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               <button onClick={confirmUpdate}>Submit</button>
               <button onClick={() => setIsUpdateModalOpen(false)}>
