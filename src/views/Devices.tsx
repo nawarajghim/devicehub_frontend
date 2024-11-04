@@ -6,6 +6,7 @@ import {
   useDeleteDevice,
   usePostDevice,
   useUser,
+  useUpdateDevice,
 } from "../hooks/apiHooks";
 import { Device } from "../types/DBTypes";
 
@@ -15,6 +16,10 @@ const Devices = () => {
   const { devices, loading, error, fetchDevices } = useFetchDevices();
   const { deleteDevice } = useDeleteDevice();
   const { postDevice } = usePostDevice();
+  const { updateDevice } = useUpdateDevice();
+
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [deviceToUpdate, setDeviceToUpdate] = useState<Device | null>(null);
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [deviceToDelete, setDeviceToDelete] = useState<string | null>(null);
@@ -31,6 +36,28 @@ const Devices = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewDevice({ ...newDevice, [name]: value });
+  };
+
+  const handleUpdateInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
+    if (deviceToUpdate) {
+      setDeviceToUpdate({ ...deviceToUpdate, [name]: value });
+    }
+  };
+
+  const handleUpdate = (device: Device) => {
+    setDeviceToUpdate(device);
+    setIsUpdateModalOpen(true);
+  };
+
+  const confirmUpdate = async () => {
+    if (deviceToUpdate) {
+      await updateDevice(deviceToUpdate.name, deviceToUpdate);
+      await fetchDevices();
+      setIsUpdateModalOpen(false);
+    }
   };
 
   const createDevice = async () => {
@@ -76,6 +103,20 @@ const Devices = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
+  // Classes, types ans statuses for updating devices TODO: fetch from database later
+  const deviceClasses = ["Meter", "Optical Device"];
+  const deviceTypes = [
+    "Temperature and Humidity",
+    "Air quality",
+    "Noise Level",
+    "Lighting",
+    "Ergonomics",
+    "Multifunctional Sensor",
+    "Camera",
+    "Motion Sensor",
+  ];
+  const statuses = ["Active", "Inactive"];
+
   return (
     <>
       <div>
@@ -114,12 +155,20 @@ const Devices = () => {
                 <button className="device-button">Open</button>
               </Link>
               {role === "admin" && (
-                <button
-                  className="device-button"
-                  onClick={() => handleDelete(device.name)}
-                >
-                  Delete
-                </button>
+                <>
+                  <button
+                    className="device-button-modify"
+                    onClick={() => handleUpdate(device)}
+                  >
+                    Modify
+                  </button>
+                  <button
+                    className="device-button-delete"
+                    onClick={() => handleDelete(device.name)}
+                  >
+                    Delete
+                  </button>
+                </>
               )}
             </div>
           ))}
@@ -169,6 +218,64 @@ const Devices = () => {
 
               <button onClick={createDevice}>Submit</button>
               <button onClick={() => setAddModalOpen(false)}>Cancel</button>
+            </div>
+          </div>
+        )}
+
+        {/* Modal for Updating a Device */}
+        {isUpdateModalOpen && deviceToUpdate && (
+          <div className="modal">
+            <div className="modal-content">
+              <h3>Update Device</h3>
+              <h4>{deviceToUpdate.name}</h4>
+              <select
+                name="deviceClass"
+                value={deviceToUpdate.deviceClass}
+                onChange={handleUpdateInputChange}
+              >
+                <option value="">Select Device Class</option>
+                {deviceClasses.map((deviceClass) => (
+                  <option key={deviceClass} value={deviceClass}>
+                    {deviceClass}
+                  </option>
+                ))}
+              </select>
+              <select
+                name="deviceType"
+                value={deviceToUpdate.deviceType}
+                onChange={handleUpdateInputChange}
+              >
+                <option value="">Select Device Type</option>
+                {deviceTypes.map((deviceType) => (
+                  <option key={deviceType} value={deviceType}>
+                    {deviceType}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="text"
+                name="location"
+                placeholder="Location"
+                value={deviceToUpdate.location}
+                onChange={handleUpdateInputChange}
+              />
+              <select
+                name="status"
+                value={deviceToUpdate.status}
+                onChange={handleUpdateInputChange}
+              >
+                <option value="">Select Device Status</option>
+                {statuses.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+
+              <button onClick={confirmUpdate}>Submit</button>
+              <button onClick={() => setIsUpdateModalOpen(false)}>
+                Cancel
+              </button>
             </div>
           </div>
         )}
