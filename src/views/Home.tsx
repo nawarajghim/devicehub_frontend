@@ -24,10 +24,9 @@ const Home = () => {
           <div className="home-text">
             <h1>Welcome to Device Hub</h1>
             <p>
-              Device hub projektin ideana on kehittää hallinta paneeli joka
-              hallitsee IoT-laitteita. Projekti on osana Nokian Garage
-              projektia. Projekti on tehty yhteistyössä Nokian ja Metropolian
-              opiskelijoiden kanssa.
+            The idea of the Device hub project is to develop a control panel that manages IoT devices. 
+            The project is part of the Nokian Garage project. 
+            The project has been made in cooperation with students from Nokia and Metropolia.
             </p>
           </div>
           {/*<img className="home-img" src="/src/assets/nokia-logo.png" alt="logo" />*/}
