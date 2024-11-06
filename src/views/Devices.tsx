@@ -7,6 +7,7 @@ import {
   usePostDevice,
   useUser,
   useUpdateDevice,
+  useFetchDeviceClasses,
 } from "../hooks/apiHooks";
 import { Device } from "../types/DBTypes";
 
@@ -17,6 +18,7 @@ const Devices = () => {
   const { deleteDevice } = useDeleteDevice();
   const { postDevice } = usePostDevice();
   const { updateDevice } = useUpdateDevice();
+  const { deviceClasses } = useFetchDeviceClasses();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [deviceToUpdate, setDeviceToUpdate] = useState<Device | null>(null);
@@ -100,33 +102,24 @@ const Devices = () => {
     fetchDevices();
   }, []);
 
+  console.log(
+    deviceClasses.map((deviceClass) => deviceClass.type.map((type) => type))
+  );
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   // Classes, types ans statuses for updating devices TODO: fetch from database later
-  const deviceClasses = ["Meter", "Optical Device"];
-  const deviceTypes = [
-    "Temperature and Humidity",
-    "Air quality",
-    "Noise Level",
-    "Lighting",
-    "Ergonomics",
-    "Multifunctional Sensor",
-    "Camera",
-    "Motion Sensor",
-  ];
   const statuses = ["Active", "Inactive"];
   const locations = [
     "Nokia Garage",
     "Nokia Campus",
     "Alternating",
-    "Helsinki",
-    "Espoo",
-    "Vantaa",
-    "Tampere",
-    "Turku",
-    "Oulu",
+    "Metropolia",
+    "Other",
   ];
+
+  console.log(deviceToUpdate?.location);
 
   return (
     <>
@@ -247,8 +240,8 @@ const Devices = () => {
                   onChange={handleUpdateInputChange}
                 >
                   {deviceClasses.map((deviceClass) => (
-                    <option key={deviceClass} value={deviceClass}>
-                      {deviceClass}
+                    <option key={deviceClass.name} value={deviceClass.name}>
+                      {deviceClass.name}
                     </option>
                   ))}
                 </select>
@@ -258,11 +251,16 @@ const Devices = () => {
                   value={deviceToUpdate.deviceType}
                   onChange={handleUpdateInputChange}
                 >
-                  {deviceTypes.map((deviceType) => (
-                    <option key={deviceType} value={deviceType}>
-                      {deviceType}
-                    </option>
-                  ))}
+                  {deviceClasses
+                    .find(
+                      (deviceClass) =>
+                        deviceClass.name === deviceToUpdate.deviceClass
+                    )
+                    ?.type.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
                 </select>
                 <p>Location</p>
                 <select
@@ -276,6 +274,17 @@ const Devices = () => {
                     </option>
                   ))}
                 </select>
+                {deviceToUpdate.location === "Other" && (
+                  <div className="specify-location">
+                    <p>Specify the location</p>
+                    <input
+                      type="text"
+                      name="location"
+                      value={deviceToUpdate.location}
+                      onChange={handleUpdateInputChange}
+                    />
+                  </div>
+                )}
                 <p>Status</p>
                 <select
                   name="status"

@@ -152,7 +152,12 @@
     border-radius: 5px;
     border: 1px solid #ccc;
 }
-  
+
+.specify-location p {
+    font-size: 15px;
+    margin: 10px 0 0 0;
+}
+
   .modal-content h3 {
     margin-top: 0;
   }
@@ -181,3 +186,11 @@
   .modal-content button:last-of-type {
     background-color: #ccc;
   }
+
+  .specify-location input {
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+  
