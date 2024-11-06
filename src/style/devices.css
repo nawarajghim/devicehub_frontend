@@ -187,10 +187,7 @@
     background-color: #ccc;
   }
 
-  .specify-location input {
-    padding: 5px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+  .specify-location input, input::placeholder {
+    font-size: 15px;
+  }
   

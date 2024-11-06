@@ -19,6 +19,7 @@ const Devices = () => {
   const { postDevice } = usePostDevice();
   const { updateDevice } = useUpdateDevice();
   const { deviceClasses } = useFetchDeviceClasses();
+  const [otherLocation, setOtherLocation] = useState("");
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [deviceToUpdate, setDeviceToUpdate] = useState<Device | null>(null);
@@ -43,20 +44,39 @@ const Devices = () => {
   const handleUpdateInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
-    if (deviceToUpdate) {
-      setDeviceToUpdate({ ...deviceToUpdate, [name]: value });
+    const { name, value } = e.target;
+
+    if (name === "location" && value === "Other") {
+      setDeviceToUpdate({ ...deviceToUpdate, location: value } as Device);
+      setOtherLocation("");
+    } else if (name === "location" && deviceToUpdate?.location === "Other") {
+      setOtherLocation(value);
+    } else {
+      setDeviceToUpdate({ ...deviceToUpdate, [name]: value } as Device);
     }
   };
 
   const handleUpdate = (device: Device) => {
     setDeviceToUpdate(device);
     setIsUpdateModalOpen(true);
+
+    if (device.location && !locations.includes(device.location)) {
+      setOtherLocation(device.location);
+    } else {
+      setOtherLocation("");
+    }
   };
 
   const confirmUpdate = async () => {
     if (deviceToUpdate) {
-      await updateDevice(deviceToUpdate.name, deviceToUpdate);
+      const updatedDevice = {
+        ...deviceToUpdate,
+        location:
+          deviceToUpdate.location === "Other"
+            ? otherLocation
+            : deviceToUpdate.location,
+      };
+      await updateDevice(updatedDevice.name, updatedDevice);
       await fetchDevices();
       setIsUpdateModalOpen(false);
     }
@@ -120,6 +140,7 @@ const Devices = () => {
   ];
 
   console.log(deviceToUpdate?.location);
+  console.log(otherLocation);
 
   return (
     <>
@@ -265,7 +286,12 @@ const Devices = () => {
                 <p>Location</p>
                 <select
                   name="location"
-                  value={deviceToUpdate.location}
+                  value={
+                    deviceToUpdate &&
+                    locations.includes(deviceToUpdate?.location ?? "")
+                      ? deviceToUpdate.location
+                      : "Other"
+                  }
                   onChange={handleUpdateInputChange}
                 >
                   {locations.map((location) => (
@@ -274,14 +300,15 @@ const Devices = () => {
                     </option>
                   ))}
                 </select>
+                {/* TODO: make the exact location instead of other appear in the input field immediately*/}
                 {deviceToUpdate.location === "Other" && (
                   <div className="specify-location">
-                    <p>Specify the location</p>
                     <input
                       type="text"
-                      name="location"
-                      value={deviceToUpdate.location}
-                      onChange={handleUpdateInputChange}
+                      name="otherLocation"
+                      placeholder="Please specify location"
+                      value={otherLocation}
+                      onChange={(e) => setOtherLocation(e.target.value)}
                     />
                   </div>
                 )}
