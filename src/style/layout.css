@@ -23,6 +23,9 @@ header {
     text-decoration: none;
     padding: 0;
     color: white;
+    position: relative;
+    z-index: 100;
+    margin-left: 30px;
   }
 
   .navi a {
@@ -37,8 +40,6 @@ header {
     display: none;
   }
 
-
-
 svg{
   margin-left: -45px;
   margin-bottom: -4px;
@@ -48,12 +49,24 @@ svg{
 .navbar{
   width: 60vh;
   height: 6vh;
-  background-color: white;
-  border-radius: 30px;
   margin-left: -60px;
-  margin-top: -122px;
+  margin-top: -125px;
   transition: transform 0.3s ease-in-out;
+
 }
+
+.navisvg{
+  fill: white;
+  width: 335px;
+  height: auto;
+  margin-top: -60px;
+  margin-left: 5px;
+  z-index: 1;
+  position: relative
+
+}
+
+
 
 .navi-p-active {
   position: relative;
@@ -135,6 +148,6 @@ svg{
 
 .footer{
     margin-top: -100px;
-    margin-left: -60px;
+    margin-left: -50px;
 }
   

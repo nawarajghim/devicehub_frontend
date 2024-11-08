@@ -151,39 +151,15 @@ const Layout = () => {
 
           {/* Apply dynamic navbar class */}
           <div className={`navbar ${navbarClass}`}>
-            {/* top round */}
-            <svg
-              className="top-nav"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect width="24" height="24" fill="white" />
-              <path d="M0 0H24C24 13.2548 13.2548 24 0 24V0Z" fill="#101010" />
-            </svg>
-            {/* top bottom */}
-            <svg
-              className="bottom-nav"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                y="24"
-                width="24"
-                height="24"
-                transform="rotate(-90 0 24)"
-                fill="white"
-              />
-              <path
-                d="M0 24L0 0C13.2548 0 24 10.7452 24 24H0Z"
-                fill="#101010"
-              />
-            </svg>
+
+          <svg className="navisvg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 560 288">
+
+          
+            <g>
+              <path  d="M433.43,2.04v52.13h-.02c0,.33.02.65.02.98,0,25.87-20.19,46.84-45.09,46.84-.06,0-.13,0-.19,0h0s-310.19,0-310.19,0c-22.95,0-41.73,18.51-43.28,41.94,1.55,22.56,20.33,40.38,43.28,40.38h310.19c.06,0,.13,0,.19,0,24.9,0,45.09,20.19,45.09,45.09,0,.32-.02.63-.02.94h.02v50.19h72.45V2.04h-72.45Z"/>
+            </g>
+          
+          </svg>
           </div>
         </header>
         <main className="mainpage">
