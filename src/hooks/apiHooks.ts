@@ -1,7 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Values } from "../types/LocalTypes";
-import { DBMessageResponse, MessageResponse, RoleResponse } from "../types/MessageTypes";
+import {
+  DBMessageResponse,
+  MessageResponse,
+  RoleResponse,
+} from "../types/MessageTypes";
 import { Device, DeviceClass, DeviceData, Ruuvi } from "../types/DBTypes";
 
 /******************Device Hooks******************/
@@ -65,7 +69,9 @@ const usePostDevice = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const postDevice = async (device: Omit<Device, "data" | "timestamp">) => {
+  const postDevice = async (
+    device: Omit<Device, "data" | "timestamp" | "last_updated">
+  ) => {
     setLoading(true);
     setError(null);
     try {
@@ -84,7 +90,10 @@ const useUpdateDevice = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateDevice = async (name: string, device: Omit<Device, "data" | "timestamp">) => {
+  const updateDevice = async (
+    name: string,
+    device: Omit<Device, "data" | "timestamp">
+  ) => {
     setLoading(true);
     setError(null);
     try {

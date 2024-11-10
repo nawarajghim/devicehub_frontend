@@ -6,7 +6,6 @@ import Devices from "./views/Devices";
 import "./App.css";
 import Login from "./views/Login";
 
-import SingleDevice from "./components/SingleDevice";
 import Data from "./views/data";
 import { UserProvider } from "./contexts/UserContext";
 
@@ -24,11 +23,7 @@ const App: React.FC = () => {
                 {/* Devices page accessible without login */}
                 <Route path="/devices" element={<Devices />} />
                 {/* Data page accessible without login */}
-                <Route path="/data" element={<Data />} />
-                <Route
-                  path="/devices/name/:deviceName"
-                  element={<SingleDevice />}
-                />
+                <Route path="/devices/name/:deviceName" element={<Data />} />
               </Route>
               <Route path="/login" element={<Login />} />
             </Routes>

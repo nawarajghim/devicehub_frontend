@@ -6,11 +6,11 @@ const RecentData: React.FC<{ device: Device }> = ({ device }) => {
   const { data, isConnected } = useWebSocket("ws://localhost:3000");
 
   if (!isConnected) {
-    return <div>Connecting to WebSocket...</div>;
+    return <div className="additional-info">Connecting to WebSocket...</div>;
   }
 
   if (!data) {
-    return <div>No data received yet.</div>;
+    return <div className="additional-info">No data received yet.</div>;
   }
 
   console.log(data);

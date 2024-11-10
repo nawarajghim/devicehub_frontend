@@ -103,7 +103,6 @@ svg{
   transform: translateY(55px);
 }
 
-
 /* Main page */
 .mainpage {
     color: var(--dark-text);
@@ -119,7 +118,6 @@ svg{
     width: 300vh;
     height: 85vh;
     z-index: 11;
-    overflow-y: scroll;
 }
   
   body, html {

@@ -11,14 +11,26 @@
     margin-left: 20px;
 }
 
+.devices-page {
+    width: 100%;
+}
+
 .device-container{
     color: #000;
+    overflow: hidden;
+    overflow-y: auto;
+    width: 100%;
 }
 
 .device-card{
     display: flex;
     align-items: center;
 }
+
+.device-card p {
+    text-align: left;
+}
+
 .device-info{
     background-color: #f7f8fA;
     border:  1px solid #EFF0F4;

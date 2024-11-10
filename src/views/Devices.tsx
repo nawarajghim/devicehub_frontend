@@ -29,7 +29,7 @@ const Devices = () => {
 
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [newDevice, setNewDevice] = useState<
-    Omit<Device, "data" | "timestamp">
+    Omit<Device, "data" | "timestamp" | "last_updated">
   >({
     name: "",
     deviceClass: "",
@@ -146,8 +146,7 @@ const Devices = () => {
   console.log(otherLocation);
 
   return (
-    <>
-      <div>
+      <div className="devices-page">
         <h2 className="h2-title">Device Hub</h2>
         <hr className="line" />
         <div className="button-container">
@@ -370,7 +369,6 @@ const Devices = () => {
           message="Are you sure you want to delete this device?"
         />
       </div>
-    </>
   );
 };
 
