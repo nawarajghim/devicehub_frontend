@@ -57,13 +57,12 @@ svg{
 
 .navisvg{
   fill: white;
-  width: 335px;
+  max-width: 385px;
   height: auto;
   margin-top: -60px;
-  margin-left: 5px;
+  margin-left: 0;
   z-index: 1;
   position: relative
-
 }
 
 
