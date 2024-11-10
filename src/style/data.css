@@ -89,6 +89,19 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+  }
+
+  .recent-data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .recent-data p {
+    font-size: 1rem;
+    color: var(--dark-text);
   }
   
   .info-section {

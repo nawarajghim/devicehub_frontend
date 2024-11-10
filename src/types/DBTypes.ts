@@ -5,8 +5,10 @@ type Device = {
   location?: string;
   settings?: string;
   status: string;
-  data: Array<string>;
-  timestamp: Date;
+  data: {
+    [key: string]: string | number;
+  }
+  last_updated: Date;
 };
 
 type DeviceClass = {
