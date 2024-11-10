@@ -28,7 +28,9 @@ const Devices = () => {
   const [deviceToDelete, setDeviceToDelete] = useState<string | null>(null);
 
   const [isAddModalOpen, setAddModalOpen] = useState(false);
-  const [newDevice, setNewDevice] = useState<Device>({
+  const [newDevice, setNewDevice] = useState<
+    Omit<Device, "data" | "timestamp">
+  >({
     name: "",
     deviceClass: "",
     deviceType: "",
@@ -36,7 +38,7 @@ const Devices = () => {
     status: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setNewDevice({ ...newDevice, [name]: value });
   };
@@ -86,6 +88,7 @@ const Devices = () => {
     await postDevice(newDevice);
     await fetchDevices();
     setAddModalOpen(false);
+    console.log(newDevice);
   };
 
   const handleDelete = async (deviceName: string) => {
@@ -204,43 +207,68 @@ const Devices = () => {
         {isAddModalOpen && (
           <div className="modal">
             <div className="modal-content">
-              <h3>Add a New Device</h3>
-              <input
-                type="text"
-                name="name"
-                placeholder="Device Name"
-                value={newDevice.name}
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                name="deviceClass"
-                placeholder="Device Class"
-                value={newDevice.deviceClass}
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                name="deviceType"
-                placeholder="Device Type"
-                value={newDevice.deviceType}
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                name="location"
-                placeholder="Location"
-                value={newDevice.location}
-                onChange={handleInputChange}
-              />
-              <input
-                type="text"
-                name="status"
-                placeholder="Status"
-                value={newDevice.status}
-                onChange={handleInputChange}
-              />
-
+              <div className="form-field">
+                <h3>Add a New Device</h3>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Device Name"
+                  value={newDevice.name}
+                  onChange={handleInputChange}
+                />
+                <p>Device Class</p>
+                <select
+                  name="deviceClass"
+                  value={newDevice.deviceClass}
+                  onChange={handleInputChange}
+                >
+                  {deviceClasses.map((deviceClass) => (
+                    <option key={deviceClass.name} value={deviceClass.name}>
+                      {deviceClass.name}
+                    </option>
+                  ))}
+                </select>
+                <p>Device Type</p>
+                <select
+                  name="deviceType"
+                  value={newDevice.deviceType}
+                  onChange={handleInputChange}
+                >
+                  {deviceClasses
+                    .find(
+                      (deviceClass) =>
+                        deviceClass.name === newDevice.deviceClass
+                    )
+                    ?.type.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                </select>
+                <p>Device Location</p>
+                <select
+                  name="location"
+                  value={newDevice.location}
+                  onChange={handleInputChange}
+                >
+                  {locations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
+                </select>
+                {newDevice.location === "Other" && (
+                  <div className="specify-location">
+                    <input
+                      type="text"
+                      name="otherLocation"
+                      placeholder="Please specify location"
+                      value={otherLocation}
+                      onChange={(e) => setOtherLocation(e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
               <button onClick={createDevice}>Submit</button>
               <button onClick={() => setAddModalOpen(false)}>Cancel</button>
             </div>

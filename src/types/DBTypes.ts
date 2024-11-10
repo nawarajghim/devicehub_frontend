@@ -5,6 +5,8 @@ type Device = {
   location?: string;
   settings?: string;
   status: string;
+  data: Array<string>;
+  timestamp: Date;
 };
 
 type DeviceClass = {

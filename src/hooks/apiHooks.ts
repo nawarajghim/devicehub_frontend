@@ -65,7 +65,7 @@ const usePostDevice = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const postDevice = async (device: Device) => {
+  const postDevice = async (device: Omit<Device, "data" | "timestamp">) => {
     setLoading(true);
     setError(null);
     try {
@@ -84,7 +84,7 @@ const useUpdateDevice = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateDevice = async (name: string, device: Device) => {
+  const updateDevice = async (name: string, device: Omit<Device, "data" | "timestamp">) => {
     setLoading(true);
     setError(null);
     try {
