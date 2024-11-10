@@ -9,7 +9,11 @@ const Statistic: React.FC = () => {
     <div className="statistic">
       <div className="statistic-header">
         <h3>Statistic</h3>
-        <select value={selected} className="range-dropdown" onChange={(e) => setSelected(e.target.value)}>
+        <select
+          value={selected}
+          className="range-dropdown"
+          onChange={(e) => setSelected(e.target.value)}
+        >
           <option value="temperature">Temperature</option>
           <option value="humidity">Humidity</option>
           <option value="pressure">Pressure</option>
