@@ -203,6 +203,379 @@ const RuuviChart = ({
 
     console.log(macData);
 
+    /***********DATA PROCESSING*************/
+
+    // point every 10 minutes for 1 hour
+    if (range === "1h") {
+      // 10 minute interval
+      const interval = 10 * 60 * 1000;
+      // start time is 1 hour ago
+      const startTime = new Date(now.getTime() - 60 * 60 * 1000);
+      const endTime = now;
+
+      const timePoints: Date[] = [];
+      for (
+        let time = startTime.getTime();
+        time <= endTime.getTime();
+        time += interval
+      ) {
+        timePoints.push(new Date(time));
+      }
+
+      const chartData = {
+        labels: timePoints.map((time) =>
+          time.toLocaleTimeString("fi-FI", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        ),
+        datasets: macData.map((macItem) => {
+          const dataPoints = timePoints.map((timePoint) => {
+            const dataInInterval = macItem.data.filter((data) => {
+              const timestamp = new Date(data.timestamp);
+              return (
+                timestamp >= new Date(timePoint.getTime() - interval) &&
+                timestamp < timePoint
+              );
+            });
+
+            if (dataInInterval.length === 0) {
+              return 0;
+            }
+
+            const average =
+              dataInInterval.reduce((sum, data) => {
+                switch (selected) {
+                  case "temperature":
+                    return sum + data.data.temperature;
+                  case "humidity":
+                    return sum + data.data.humidity;
+                  case "pressure":
+                    return sum + data.data.pressure;
+                  default:
+                    return sum + data.data.temperature;
+                }
+              }, 0) / dataInInterval.length;
+
+            return average;
+          });
+
+          return {
+            label: "RuuviTag MAC:" + macItem.mac,
+            data: dataPoints,
+            fill: false,
+            backgroundColor: "rgba(75, 192, 192, 0.5)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            tension: 0.1,
+          };
+        }),
+      };
+
+      setData(chartData);
+      return;
+    }
+
+    // point every 2 hours for 1 day
+    if (range === "1day") {
+      // 2 hour interval
+      const interval = 2 * 60 * 60 * 1000;
+      // start time is 1 day ago
+      const startTime = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      const endTime = now;
+
+      const timePoints: Date[] = [];
+      for (
+        let time = startTime.getTime();
+        time <= endTime.getTime();
+        time += interval
+      ) {
+        timePoints.push(new Date(time));
+      }
+
+      const chartData = {
+        labels: timePoints.map((time) =>
+          time.toLocaleTimeString("fi-FI", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        ),
+        datasets: macData.map((macItem) => {
+          const dataPoints = timePoints.map((timePoint) => {
+            const dataInInterval = macItem.data.filter((data) => {
+              const timestamp = new Date(data.timestamp);
+              return (
+                timestamp >= new Date(timePoint.getTime() - interval) &&
+                timestamp < timePoint
+              );
+            });
+
+            if (dataInInterval.length === 0) {
+              return 0;
+            }
+
+            const average =
+              dataInInterval.reduce((sum, data) => {
+                switch (selected) {
+                  case "temperature":
+                    return sum + data.data.temperature;
+                  case "humidity":
+                    return sum + data.data.humidity;
+                  case "pressure":
+                    return sum + data.data.pressure;
+                  default:
+                    return sum + data.data.temperature;
+                }
+              }, 0) / dataInInterval.length;
+
+            return average;
+          });
+
+          return {
+            label: "RuuviTag MAC:" + macItem.mac,
+            data: dataPoints,
+            fill: false,
+            backgroundColor: "rgba(75, 192, 192, 0.5)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            tension: 0.1,
+          };
+        }),
+      };
+
+      setData(chartData);
+      return;
+    }
+
+    // point every day for 1 week
+    if (range === "1week") {
+      // 1 day interval
+      const interval = 24 * 60 * 60 * 1000;
+      // start time is 1 week ago
+      const startTime = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const endTime = now;
+
+      const timePoints: Date[] = [];
+      for (
+        let time = startTime.getTime();
+        time <= endTime.getTime();
+        time += interval
+      ) {
+        timePoints.push(new Date(time));
+      }
+
+      const chartData = {
+        labels: timePoints.map((time) =>
+          time.toLocaleDateString("fi-FI", {
+            day: "2-digit",
+            month: "2-digit",
+          })
+        ),
+        datasets: macData
+          .map((macItem) => {
+            const dataPoints = timePoints.map((timePoint) => {
+              const dataInInterval = macItem.data.filter((data) => {
+                const timestamp = new Date(data.timestamp);
+                return (
+                  timestamp >= new Date(timePoint.getTime() - interval) &&
+                  timestamp < timePoint
+                );
+              });
+
+              if (dataInInterval.length === 0) {
+                return 0;
+              }
+
+              const average =
+                dataInInterval.reduce((sum, data) => {
+                  switch (selected) {
+                    case "temperature":
+                      return sum + data.data.temperature;
+                    case "humidity":
+                      return sum + data.data.humidity;
+                    case "pressure":
+                      return sum + data.data.pressure;
+                    default:
+                      return sum + data.data.temperature;
+                  }
+                }, 0) / dataInInterval.length;
+
+              return average;
+            });
+
+            // filter out datasets with all zero values
+            if (dataPoints.every((point) => point === 0)) {
+              return null;
+            }
+
+            return {
+              label: "RuuviTag MAC:" + macItem.mac,
+              data: dataPoints,
+              fill: false,
+              backgroundColor: "rgba(75, 192, 192, 0.5)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              tension: 0.1,
+            };
+          })
+          .filter((dataset) => dataset !== null),
+      };
+
+      setData(chartData);
+      return;
+    }
+
+    // point every week for 1 month
+    if (range === "1month") {
+      // 1 week interval
+      const interval = 7 * 24 * 60 * 60 * 1000;
+      // start time is 1 month ago
+      const startTime = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      const endTime = now;
+
+      const timePoints: Date[] = [];
+      for (
+        let time = startTime.getTime();
+        time <= endTime.getTime();
+        time += interval
+      ) {
+        timePoints.push(new Date(time));
+      }
+
+      const chartData = {
+        labels: timePoints.map((time) =>
+          time.toLocaleDateString("fi-FI", {
+            day: "2-digit",
+            month: "2-digit",
+          })
+        ),
+        datasets: macData
+          .map((macItem) => {
+            const dataPoints = timePoints.map((timePoint) => {
+              const dataInInterval = macItem.data.filter((data) => {
+                const timestamp = new Date(data.timestamp);
+                return (
+                  timestamp >= new Date(timePoint.getTime() - interval) &&
+                  timestamp < timePoint
+                );
+              });
+
+              if (dataInInterval.length === 0) {
+                return 0;
+              }
+
+              const average =
+                dataInInterval.reduce((sum, data) => {
+                  switch (selected) {
+                    case "temperature":
+                      return sum + data.data.temperature;
+                    case "humidity":
+                      return sum + data.data.humidity;
+                    case "pressure":
+                      return sum + data.data.pressure;
+                    default:
+                      return sum + data.data.temperature;
+                  }
+                }, 0) / dataInInterval.length;
+
+              return average;
+            });
+
+            // filter out datasets with all zero values
+            if (dataPoints.every((point) => point === 0)) {
+              return null;
+            }
+
+            return {
+              label: "RuuviTag MAC:" + macItem.mac,
+              data: dataPoints,
+              fill: false,
+              backgroundColor: "rgba(75, 192, 192, 0.5)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              tension: 0.1,
+            };
+          })
+          .filter((dataset) => dataset !== null),
+      };
+
+      setData(chartData);
+      return;
+    }
+
+    // point every month for 1 year
+    if (range === "1year") {
+      // 1 month interval
+      const interval = 30 * 24 * 60 * 60 * 1000;
+      // start time is 1 year ago
+      const startTime = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+      const endTime = now;
+
+      const timePoints: Date[] = [];
+      for (
+        let time = startTime.getTime();
+        time <= endTime.getTime();
+        time += interval
+      ) {
+        timePoints.push(new Date(time));
+      }
+
+      const chartData = {
+        labels: timePoints.map((time) =>
+          time.toLocaleDateString("fi-FI", {
+            month: "2-digit",
+            year: "numeric",
+          })
+        ),
+        datasets: macData
+          .map((macItem) => {
+            const dataPoints = timePoints.map((timePoint) => {
+              const dataInInterval = macItem.data.filter((data) => {
+                const timestamp = new Date(data.timestamp);
+                return (
+                  timestamp >= new Date(timePoint.getTime() - interval) &&
+                  timestamp < timePoint
+                );
+              });
+
+              if (dataInInterval.length === 0) {
+                return 0;
+              }
+
+              const average =
+                dataInInterval.reduce((sum, data) => {
+                  switch (selected) {
+                    case "temperature":
+                      return sum + data.data.temperature;
+                    case "humidity":
+                      return sum + data.data.humidity;
+                    case "pressure":
+                      return sum + data.data.pressure;
+                    default:
+                      return sum + data.data.temperature;
+                  }
+                }, 0) / dataInInterval.length;
+
+              return average;
+            });
+
+            // filter out datasets with all zero values
+            if (dataPoints.every((point) => point === 0)) {
+              return null;
+            }
+
+            return {
+              label: "RuuviTag MAC:" + macItem.mac,
+              data: dataPoints,
+              fill: false,
+              backgroundColor: "rgba(75, 192, 192, 0.5)",
+              borderColor: "rgba(75, 192, 192, 1)",
+              tension: 0.1,
+            };
+          })
+          .filter((dataset) => dataset !== null),
+      };
+
+      setData(chartData);
+      return;
+    }
+
     // set data based on selected value
     const chartData = {
       labels: labels.reverse(),
