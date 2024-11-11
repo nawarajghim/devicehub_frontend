@@ -32,7 +32,7 @@
   .right-section {
     flex: 2;
     align-self: flex-start;
-    margin-top: 5rem;
+    margin-top: 1rem;
   }
   
   .left-section h2 {
@@ -71,6 +71,7 @@
     background-color: #f8f9fa;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
   }
   
   .statistic-header {
@@ -110,16 +111,28 @@
     margin-top: 10px;
   }
 
+  .additional-info p {
+    text-align: center;
+  }
+
   .recent-data {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
     gap: 20px;
+    padding-bottom: 10px;
   }
 
   .recent-data p {
     font-size: 1rem;
     color: var(--dark-text);
+    margin: auto;
+  }
+
+  .vertical-line {
+    margin: 0;
+    rotate: 180deg;
+    height: 3rem;
+    margin: 0;
   }
   
   .label-data {
@@ -188,6 +201,20 @@
   
     .right-section {
       margin-top: 20px;
+      width: 80%;
+      margin: auto;
+    }
+
+    .right-panel {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-evenly;
+      gap: 1rem;
+    }
+
+    .info-section, .additional-info {
+      width: 50%;
     }
   }
   

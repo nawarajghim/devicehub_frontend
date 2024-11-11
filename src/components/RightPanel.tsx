@@ -22,6 +22,7 @@ const RightPanel = ({ device }: { device: Device }) => {
           <span className="bold-text">Location</span>
           <span>{device.location}</span>
         </div>
+        <hr className="short-line" />
         <div className="info-item">
           <span className="bold-text">Status</span>
           <span
