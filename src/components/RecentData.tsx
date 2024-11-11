@@ -2,7 +2,6 @@ import useWebSocket from "../hooks/webSocketHooks";
 import { Device } from "../types/DBTypes";
 
 const RecentData: React.FC<{ device: Device }> = ({ device }) => {
-  console.log(device);
   const { data, isConnected } = useWebSocket("ws://localhost:3000");
 
   if (!isConnected) {
@@ -17,15 +16,6 @@ const RecentData: React.FC<{ device: Device }> = ({ device }) => {
   data.data.temperature = Math.round(+data.data.temperature);
   data.data.humidity = Math.round(+data.data.humidity);
   data.data.pressure = Math.round(+data.data.pressure);
-
-  console.log(new Date(data.last_updated).toLocaleString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-    }).replace(",", ""));
 
   return (
     <div className="additional-info">

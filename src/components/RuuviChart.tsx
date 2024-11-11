@@ -81,21 +81,18 @@ const RuuviChart = ({
           const timestamp = new Date(ruuvi.timestamp.toLocaleString());
           return timestamp >= new Date(now.getTime() - 60 * 60 * 1000);
         });
-        console.log(filteredData);
         break;
       case "1day":
         filteredData = ruuviTagData.filter((ruuvi) => {
           const timestamp = new Date(ruuvi.timestamp.toLocaleString());
           return timestamp >= new Date(now.getTime() - 24 * 60 * 60 * 1000);
         });
-        console.log(filteredData);
         break;
       case "1week":
         filteredData = ruuviTagData.filter((ruuvi) => {
           const timestamp = new Date(ruuvi.timestamp.toLocaleString());
           return timestamp >= new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
         });
-        console.log(filteredData);
         break;
       case "1month":
         filteredData = ruuviTagData.filter((ruuvi) => {
@@ -104,7 +101,6 @@ const RuuviChart = ({
             timestamp >= new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
           );
         });
-        console.log(filteredData);
         break;
       case "1year":
         filteredData = ruuviTagData.filter((ruuvi) => {
@@ -113,7 +109,6 @@ const RuuviChart = ({
             timestamp >= new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000)
           );
         });
-        console.log(filteredData);
         break;
       default:
         filteredData = ruuviTagData;
@@ -182,7 +177,6 @@ const RuuviChart = ({
               year: "numeric",
             });
           });
-          console.log(formattedLabels);
           break;
 
         default:
@@ -200,8 +194,6 @@ const RuuviChart = ({
     };
 
     const labels = formatLabels(filteredData, range);
-
-    console.log(macData);
 
     /***********DATA PROCESSING*************/
 

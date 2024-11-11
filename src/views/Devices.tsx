@@ -125,10 +125,6 @@ const Devices = () => {
     fetchDevices();
   }, []);
 
-  console.log(
-    deviceClasses.map((deviceClass) => deviceClass.type.map((type) => type))
-  );
-
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -141,9 +137,6 @@ const Devices = () => {
     "Metropolia",
     "Other",
   ];
-
-  console.log(deviceToUpdate?.location);
-  console.log(otherLocation);
 
   return (
       <div className="devices-page">
