@@ -57,7 +57,7 @@
 } */
 
 
-.device-button{
+.device-button, .download-button{
     margin-left: 10px;
     margin-top: 20px;
     padding: 10px;
@@ -68,8 +68,14 @@
     text-align: center;
 }
 
-.device-button:hover{
+.device-button:hover, .download-button:hover{
     background-color: #6a5acd;
+}
+
+.download-button {
+    margin: 0 auto 0 auto;
+    padding: 7px;
+    font-size: 10px;
 }
 
 .device-button-modify {

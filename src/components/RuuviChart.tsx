@@ -195,10 +195,11 @@ const RuuviChart = ({
           }}
           style={{ height: "300px" }}
         />
+        <button className="download-button" onClick={downloadCSV}>
+          Download CSV
+        </button>
       </div>
-      <div>
-        <button onClick={downloadCSV}>Download CSV</button>
-      </div>
+      <div></div>
     </>
   );
 };
