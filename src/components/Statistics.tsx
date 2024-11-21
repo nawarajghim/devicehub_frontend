@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import RuuviChart from "./RuuviChart";
 
 const Statistic: React.FC = () => {
-  const [range, setRange] = useState("1h");
+  const [range, setRange] = useState("1hour");
   const [selected, setSelected] = useState("temperature");
 
   return (
@@ -23,11 +23,11 @@ const Statistic: React.FC = () => {
           onChange={(e) => setRange(e.target.value)}
           className="range-dropdown"
         >
-          <option value="1h">1 Hour</option>
-          <option value="1day">1 Day</option>
-          <option value="1week">1 Week</option>
-          <option value="1month">1 Month</option>
-          <option value="1year">1 Year</option>
+          <option value="1hour">1 hour</option>
+          <option value="24hours">24 hours</option>
+          <option value="7days">7 days</option>
+          <option value="30days">30 days</option>
+          <option value="12months">12 months</option>
         </select>
       </div>
       <RuuviChart range={range} selected={selected} />

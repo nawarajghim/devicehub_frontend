@@ -76,25 +76,25 @@ const RuuviChart = ({
 
     // filter data based on selected range
     switch (range) {
-      case "1h":
+      case "1hour":
         filteredData = ruuviTagData.filter((ruuvi) => {
           const timestamp = new Date(ruuvi.timestamp.toLocaleString());
           return timestamp >= new Date(now.getTime() - 60 * 60 * 1000);
         });
         break;
-      case "1day":
+      case "24hours":
         filteredData = ruuviTagData.filter((ruuvi) => {
           const timestamp = new Date(ruuvi.timestamp.toLocaleString());
           return timestamp >= new Date(now.getTime() - 24 * 60 * 60 * 1000);
         });
         break;
-      case "1week":
+      case "7days":
         filteredData = ruuviTagData.filter((ruuvi) => {
           const timestamp = new Date(ruuvi.timestamp.toLocaleString());
           return timestamp >= new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
         });
         break;
-      case "1month":
+      case "30days":
         filteredData = ruuviTagData.filter((ruuvi) => {
           const timestamp = new Date(ruuvi.timestamp.toLocaleString());
           return (
@@ -102,7 +102,7 @@ const RuuviChart = ({
           );
         });
         break;
-      case "1year":
+      case "12months":
         filteredData = ruuviTagData.filter((ruuvi) => {
           const timestamp = new Date(ruuvi.timestamp);
           return (
@@ -131,7 +131,7 @@ const RuuviChart = ({
       let formattedLabels = [];
 
       switch (range) {
-        case "1h":
+        case "1hour":
           formattedLabels = data.map((data: { timestamp: Date }) => {
             const date = new Date(data.timestamp);
             return date.toLocaleTimeString("fi-FI", {
@@ -141,7 +141,7 @@ const RuuviChart = ({
           });
           break;
 
-        case "1day":
+        case "24hours":
           formattedLabels = data.map((data: { timestamp: Date }) => {
             const date = new Date(data.timestamp);
             return date.toLocaleTimeString("fi-FI", {
@@ -150,7 +150,7 @@ const RuuviChart = ({
             });
           });
           break;
-        case "1week":
+        case "7days":
           formattedLabels = data.map((data: { timestamp: Date }) => {
             const date = new Date(data.timestamp);
             return date.toLocaleDateString("fi-FI", {
@@ -159,7 +159,7 @@ const RuuviChart = ({
             });
           });
           break;
-        case "1month":
+        case "30days":
           formattedLabels = data.map((data: { timestamp: Date }) => {
             const date = new Date(data.timestamp);
             return date.toLocaleDateString("fi-FI", {
@@ -169,7 +169,7 @@ const RuuviChart = ({
           });
           break;
 
-        case "1year":
+        case "12months":
           formattedLabels = data.map((data: { timestamp: Date }) => {
             const date = new Date(data.timestamp);
             return date.toLocaleDateString("fi-FI", {
@@ -198,7 +198,7 @@ const RuuviChart = ({
     /***********DATA PROCESSING*************/
 
     // point every 10 minutes for 1 hour
-    if (range === "1h") {
+    if (range === "1hour") {
       // 10 minute interval
       const interval = 10 * 60 * 1000;
       // start time is 1 hour ago
@@ -268,7 +268,7 @@ const RuuviChart = ({
     }
 
     // point every 2 hours for 1 day
-    if (range === "1day") {
+    if (range === "24hours") {
       // 2 hour interval
       const interval = 2 * 60 * 60 * 1000;
       // start time is 1 day ago
@@ -338,7 +338,7 @@ const RuuviChart = ({
     }
 
     // point every day for 1 week
-    if (range === "1week") {
+    if (range === "7days") {
       // 1 day interval
       const interval = 24 * 60 * 60 * 1000;
       // start time is 1 week ago
@@ -415,7 +415,7 @@ const RuuviChart = ({
     }
 
     // point every week for 1 month
-    if (range === "1month") {
+    if (range === "30days") {
       // 1 week interval
       const interval = 7 * 24 * 60 * 60 * 1000;
       // start time is 1 month ago
@@ -492,7 +492,7 @@ const RuuviChart = ({
     }
 
     // point every month for 1 year
-    if (range === "1year") {
+    if (range === "12months") {
       // 1 month interval
       const interval = 30 * 24 * 60 * 60 * 1000;
       // start time is 1 year ago
