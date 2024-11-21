@@ -39,11 +39,11 @@ const Home = () => {
               src="/src/assets/meta.png"
               alt="logometropolia"
             />
-            <img
+            {/* <img
               className="home-img1"
               src="/src/assets/nokia1.jpg"
               alt="logonokia"
-            />
+            /> */}
           </div>
           <div className="home-boxes">
             {devicesToShow.map((device, index) => {
