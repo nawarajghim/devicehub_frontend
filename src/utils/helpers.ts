@@ -102,132 +102,23 @@ const filterData = (range: string, ruuviTagData: Ruuvi[]) => {
   }
 };
 
-// const formatLabels = (data: { timestamp: Date }[], range: string) => {
-//   let formattedLabels = [];
+const calculateAverage = (dataInInterval: Ruuvi[], selected: string) => {
+  const average =
+    dataInInterval.reduce((sum, data) => {
+      switch (selected) {
+        case "temperature":
+          return sum + data.data.temperature;
+        case "humidity":
+          return sum + data.data.humidity;
+        case "pressure":
+          return sum + data.data.pressure;
+        default:
+          return sum + data.data.temperature;
+      }
+    }, 0) / dataInInterval.length;
 
-//   switch (range) {
-//     case "1hour":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleTimeString("fi-FI", {
-//           hour: "2-digit",
-//           minute: "2-digit",
-//         });
-//       });
-//       return formattedLabels;
-
-//     case "24hours":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleTimeString("fi-FI", {
-//           hour: "2-digit",
-//           minute: "2-digit",
-//         });
-//       });
-//       return formattedLabels;
-//     case "7days":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleDateString("fi-FI", {
-//           day: "2-digit",
-//           month: "2-digit",
-//         });
-//       });
-//       return formattedLabels;
-//     case "30days":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleDateString("fi-FI", {
-//           day: "2-digit",
-//           month: "2-digit",
-//         });
-//       });
-//       return formattedLabels;
-
-//     case "12months":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleDateString("fi-FI", {
-//           month: "2-digit",
-//           year: "numeric",
-//         });
-//       });
-//       return formattedLabels;
-//     case "currenthour":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleTimeString("fi-FI", {
-//           hour: "2-digit",
-//           minute: "2-digit",
-//         });
-//       });
-//       return formattedLabels;
-//     case "today":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleTimeString("fi-FI", {
-//           hour: "2-digit",
-//           minute: "2-digit",
-//         });
-//       });
-//       return formattedLabels;
-//     case "currentweek":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleDateString("fi-FI", {
-//           day: "2-digit",
-//           month: "2-digit",
-//         });
-//       });
-//       return formattedLabels;
-//     case "currentmonth":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleDateString("fi-FI", {
-//           month: "2-digit",
-//           year: "numeric",
-//         });
-//       });
-//       return formattedLabels;
-//     case "currentyear":
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleDateString("fi-FI", {
-//           month: "2-digit",
-//           year: "numeric",
-//         });
-//       });
-//       return formattedLabels;
-
-//     default:
-//       formattedLabels = data.map((data: { timestamp: Date }) => {
-//         const date = new Date(data.timestamp);
-//         return date.toLocaleDateString("fi-FI", {
-//           month: "2-digit",
-//           day: "2-digit",
-//         });
-//       });
-//       return formattedLabels;
-//   }
-// };
-
-// const calculateAverage = (dataInInterval: Ruuvi[], selected: string) => {
-//   const average =
-//     dataInInterval.reduce((sum, data) => {
-//       switch (selected) {
-//         case "temperature":
-//           return sum + data.data.temperature;
-//         case "humidity":
-//           return sum + data.data.humidity;
-//         case "pressure":
-//           return sum + data.data.pressure;
-//         default:
-//           return sum + data.data.temperature;
-//       }
-//     }, 0) / dataInInterval.length;
-
-//   return average;
-// };
+  return average;
+};
 
 // const returnRuuvitag = (pointData: number[], macItem: { mac: string }) => {
 //   return {
@@ -283,19 +174,7 @@ const processData = (
             return 0;
           }
 
-          const average =
-            dataInInterval.reduce((sum, data) => {
-              switch (selected) {
-                case "temperature":
-                  return sum + data.data.temperature;
-                case "humidity":
-                  return sum + data.data.humidity;
-                case "pressure":
-                  return sum + data.data.pressure;
-                default:
-                  return sum + data.data.temperature;
-              }
-            }, 0) / dataInInterval.length;
+          const average = calculateAverage(dataInInterval, selected);
 
           return average;
         });
@@ -352,19 +231,7 @@ const processData = (
             return 0;
           }
 
-          const average =
-            dataInInterval.reduce((sum, data) => {
-              switch (selected) {
-                case "temperature":
-                  return sum + data.data.temperature;
-                case "humidity":
-                  return sum + data.data.humidity;
-                case "pressure":
-                  return sum + data.data.pressure;
-                default:
-                  return sum + data.data.temperature;
-              }
-            }, 0) / dataInInterval.length;
+          const average = calculateAverage(dataInInterval, selected);
 
           return average;
         });
@@ -422,19 +289,7 @@ const processData = (
               return 0;
             }
 
-            const average =
-              dataInInterval.reduce((sum, data) => {
-                switch (selected) {
-                  case "temperature":
-                    return sum + data.data.temperature;
-                  case "humidity":
-                    return sum + data.data.humidity;
-                  case "pressure":
-                    return sum + data.data.pressure;
-                  default:
-                    return sum + data.data.temperature;
-                }
-              }, 0) / dataInInterval.length;
+            const average = calculateAverage(dataInInterval, selected);
 
             return average;
           });
@@ -498,19 +353,7 @@ const processData = (
               return 0;
             }
 
-            const average =
-              dataInInterval.reduce((sum, data) => {
-                switch (selected) {
-                  case "temperature":
-                    return sum + data.data.temperature;
-                  case "humidity":
-                    return sum + data.data.humidity;
-                  case "pressure":
-                    return sum + data.data.pressure;
-                  default:
-                    return sum + data.data.temperature;
-                }
-              }, 0) / dataInInterval.length;
+            const average = calculateAverage(dataInInterval, selected);
             return average;
           });
 
@@ -573,19 +416,7 @@ const processData = (
               return 0;
             }
 
-            const average =
-              dataInInterval.reduce((sum, data) => {
-                switch (selected) {
-                  case "temperature":
-                    return sum + data.data.temperature;
-                  case "humidity":
-                    return sum + data.data.humidity;
-                  case "pressure":
-                    return sum + data.data.pressure;
-                  default:
-                    return sum + data.data.temperature;
-                }
-              }, 0) / dataInInterval.length;
+            const average = calculateAverage(dataInInterval, selected);
             return average;
           });
 
@@ -651,19 +482,7 @@ const processData = (
             return 0;
           }
 
-          const average =
-            dataInInterval.reduce((sum, data) => {
-              switch (selected) {
-                case "temperature":
-                  return sum + data.data.temperature;
-                case "humidity":
-                  return sum + data.data.humidity;
-                case "pressure":
-                  return sum + data.data.pressure;
-                default:
-                  return sum + data.data.temperature;
-              }
-            }, 0) / dataInInterval.length;
+          const average = calculateAverage(dataInInterval, selected);
           return average;
         });
 
@@ -723,19 +542,7 @@ const processData = (
             return 0;
           }
 
-          const average =
-            dataInInterval.reduce((sum, data) => {
-              switch (selected) {
-                case "temperature":
-                  return sum + data.data.temperature;
-                case "humidity":
-                  return sum + data.data.humidity;
-                case "pressure":
-                  return sum + data.data.pressure;
-                default:
-                  return sum + data.data.temperature;
-              }
-            }, 0) / dataInInterval.length;
+          const average = calculateAverage(dataInInterval, selected);
           return average;
         });
 
@@ -796,19 +603,7 @@ const processData = (
               return 0;
             }
 
-            const average =
-              dataInInterval.reduce((sum, data) => {
-                switch (selected) {
-                  case "temperature":
-                    return sum + data.data.temperature;
-                  case "humidity":
-                    return sum + data.data.humidity;
-                  case "pressure":
-                    return sum + data.data.pressure;
-                  default:
-                    return sum + data.data.temperature;
-                }
-              }, 0) / dataInInterval.length;
+            const average = calculateAverage(dataInInterval, selected);
             return average;
           });
 
@@ -871,19 +666,7 @@ const processData = (
               return 0;
             }
 
-            const average =
-              dataInInterval.reduce((sum, data) => {
-                switch (selected) {
-                  case "temperature":
-                    return sum + data.data.temperature;
-                  case "humidity":
-                    return sum + data.data.humidity;
-                  case "pressure":
-                    return sum + data.data.pressure;
-                  default:
-                    return sum + data.data.temperature;
-                }
-              }, 0) / dataInInterval.length;
+            const average = calculateAverage(dataInInterval, selected);
             return average;
           });
 
@@ -949,19 +732,7 @@ const processData = (
               return 0;
             }
 
-            const average =
-              dataInInterval.reduce((sum, data) => {
-                switch (selected) {
-                  case "temperature":
-                    return sum + data.data.temperature;
-                  case "humidity":
-                    return sum + data.data.humidity;
-                  case "pressure":
-                    return sum + data.data.pressure;
-                  default:
-                    return sum + data.data.temperature;
-                }
-              }, 0) / dataInInterval.length;
+            const average = calculateAverage(dataInInterval, selected);
             return average;
           });
 
@@ -985,5 +756,7 @@ const processData = (
     return chartData;
   }
 };
+
+
 
 export { filterData, processData };

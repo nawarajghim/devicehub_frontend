@@ -13,6 +13,7 @@ import {
 
 import { useFetchRuuviTagData } from "../hooks/apiHooks";
 import { filterData, processData } from "../utils/helpers";
+import { Ruuvi } from "../types/DBTypes";
 
 ChartJS.register(
   CategoryScale,
@@ -48,6 +49,7 @@ const RuuviChart = ({
     labels: [],
     datasets: [],
   });
+  const [filteredData, setFilteredData] = useState<Ruuvi[]>([]);
 
   function assignMetrics(selected: string) {
     switch (selected) {
@@ -61,6 +63,43 @@ const RuuviChart = ({
         return "°C";
     }
   }
+
+  function generateCSV(data: Ruuvi[]) {
+    if (!data.length) {
+      return "No data available";
+    }
+    const headers = Object.keys(data[0].data).join(",") + ",timestamp";
+    const rows = data
+      .map((ruuvi) => {
+        const values = Object.values(ruuvi.data);
+        const localizedTimestamp = new Date(ruuvi.timestamp).toLocaleString(
+          "fi-FI"
+        );
+        return `${values.join(",")},${localizedTimestamp}`;
+      })
+      .join("\n");
+    return `${headers}\n${rows}`;
+  }
+
+  const downloadCSV = () => {
+    const csv = generateCSV(filteredData);
+    // date without time separators
+    const now = new Date();
+    const date = now.toLocaleDateString("fi-FI"); // e.g., "21.11.2024"
+    const time = now.toLocaleTimeString("fi-FI", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const filename = `ruuvi_data_${range}_${date}_${time}.csv`;
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
 
   useEffect(() => {
     if (loading || error) {
@@ -89,6 +128,8 @@ const RuuviChart = ({
       });
       return;
     }
+
+    setFilteredData(filteredData);
 
     const macs = new Set(filteredData.map((ruuvi) => ruuvi.data.mac));
     const macData = Array.from(macs).map((mac) => {
@@ -121,39 +162,44 @@ const RuuviChart = ({
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="chart-container">
-      <Line
-        data={data}
-        options={{
-          plugins: {
-            legend: {
-              display: true,
-              position: "top",
-            },
-            title: {
-              display: true,
-              text: `${selected.toUpperCase()} data for the last ${range}`,
-            },
-          },
-          scales: {
-            x: {
+    <>
+      <div className="chart-container">
+        <Line
+          data={data}
+          options={{
+            plugins: {
+              legend: {
+                display: true,
+                position: "top",
+              },
               title: {
                 display: true,
-                text: "Time",
+                text: `${selected.toUpperCase()} data for the last ${range}`,
               },
             },
-            y: {
-              title: {
-                display: true,
-                text: assignMetrics(selected),
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "Time",
+                },
               },
-              beginAtZero: true,
+              y: {
+                title: {
+                  display: true,
+                  text: assignMetrics(selected),
+                },
+                beginAtZero: true,
+              },
             },
-          },
-        }}
-        style={{ height: "300px" }}
-      />
-    </div>
+          }}
+          style={{ height: "300px" }}
+        />
+      </div>
+      <div>
+        <button onClick={downloadCSV}>Download CSV</button>
+      </div>
+    </>
   );
 };
 
