@@ -28,6 +28,11 @@ const Statistic: React.FC = () => {
           <option value="7days">7 days</option>
           <option value="30days">30 days</option>
           <option value="12months">12 months</option>
+          <option value="currenthour">Current hour</option>
+          <option value="today">Today</option>
+          <option value="currentweek">Current week</option>
+          <option value="currentmonth">Current month</option>
+          <option value="currentyear">Current year</option>
         </select>
       </div>
       <RuuviChart range={range} selected={selected} />
