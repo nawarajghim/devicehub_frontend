@@ -11,7 +11,7 @@ import {
   Legend,
 } from "chart.js";
 
-import { useFetchRuuviTagData } from "../hooks/apiHooks";
+import { useFetchRuuviTagData, useUser } from "../hooks/apiHooks";
 import { filterData, processData } from "../utils/helpers";
 import { Ruuvi } from "../types/DBTypes";
 
@@ -44,12 +44,26 @@ const RuuviChart = ({
   range: string;
   selected: string;
 }) => {
+  const { getRoleByToken } = useUser();
+  const [role, setRole] = useState<string | null>(null);
   const { ruuviTagData, loading, error } = useFetchRuuviTagData();
   const [data, setData] = useState<ChartData>({
     labels: [],
     datasets: [],
   });
   const [filteredData, setFilteredData] = useState<Ruuvi[]>([]);
+
+  const implementCondition = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const role = await getRoleByToken();
+      if (role === "admin") {
+        setRole("admin");
+      } else {
+        setRole("user");
+      }
+    }
+  };
 
   function assignMetrics(selected: string) {
     switch (selected) {
@@ -109,6 +123,8 @@ const RuuviChart = ({
     if (ruuviTagData.length === 0) {
       return;
     }
+
+    implementCondition();
 
     const filteredData = filterData(range, ruuviTagData);
 
@@ -195,9 +211,11 @@ const RuuviChart = ({
           }}
           style={{ height: "300px" }}
         />
-        <button className="download-button" onClick={downloadCSV}>
-          Download CSV
-        </button>
+        {role === "admin" && (
+          <button className="download-button" onClick={downloadCSV}>
+            Download CSV
+          </button>
+        )}
       </div>
       <div></div>
     </>
