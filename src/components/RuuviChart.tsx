@@ -179,6 +179,7 @@ const RuuviChart = ({
       const data = filteredData.filter((ruuvi) => ruuvi.data.mac === mac);
       return { mac: mac, data: data };
     });
+    console.log("macData", macData);
 
     const chartData = processData(range, selected, macData);
     if (!chartData) {
