@@ -6,7 +6,13 @@ import {
   MessageResponse,
   RoleResponse,
 } from "../types/MessageTypes";
-import { Device, DeviceClass, DeviceData, Ruuvi } from "../types/DBTypes";
+import {
+  Device,
+  DeviceClass,
+  DeviceData,
+  Ruuvi,
+  Weekly,
+} from "../types/DBTypes";
 
 /******************Device Hooks******************/
 
@@ -370,6 +376,86 @@ const useFetchRuuviTagData = () => {
   return { ruuviTagData, loading, error };
 };
 
+/* Testing purposes only */
+
+const useAggregatedWeeklyData = () => {
+  const [aggregatedWeekly, setAggregatedWeekly] = useState<Weekly[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAggregatedData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get<Weekly[]>(
+          "http://localhost:3000/api/v1/aggregation/weekly"
+        );
+        setAggregatedWeekly(response.data);
+      } catch {
+        setError("Failed to fetch aggregated data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAggregatedData();
+  }, []);
+
+  return { aggregatedWeekly, loading, error };
+};
+
+const useAggregatedMonthlyData = () => {
+  const [aggregatedMonthly, setAggregatedMonthly] = useState<Weekly[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAggregatedData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get<Weekly[]>(
+          "http://localhost:3000/api/v1/aggregation/monthly"
+        );
+        setAggregatedMonthly(response.data);
+      } catch {
+        setError("Failed to fetch aggregated data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAggregatedData();
+  }, []);
+
+  return { aggregatedMonthly, loading, error };
+};
+
+const useAggregatedYearlyData = () => {
+  const [aggregatedYearly, setAggregatedYearly] = useState<Weekly[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAggregatedData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get<Weekly[]>(
+          "http://localhost:3000/api/v1/aggregation/yearly"
+        );
+        setAggregatedYearly(response.data);
+      } catch {
+        setError("Failed to fetch aggregated data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAggregatedData();
+  }, []);
+
+  return { aggregatedYearly, loading, error };
+};
+
 /******************Authentication******************/
 // Hook to authenticate admin
 
@@ -446,6 +532,9 @@ export {
   useUpdateDeviceData,
   useDeleteDeviceData,
   useFetchRuuviTagData,
+  useAggregatedWeeklyData,
+  useAggregatedMonthlyData,
+  useAggregatedYearlyData,
   usePostDevice,
   useUpdateDevice,
   useDeleteDevice,

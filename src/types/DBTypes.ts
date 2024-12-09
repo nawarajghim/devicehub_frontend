@@ -7,7 +7,7 @@ type Device = {
   status: string;
   data: {
     [key: string]: string | number;
-  }
+  };
   last_updated: Date;
 };
 
@@ -39,4 +39,42 @@ type Admin = {
   role: string;
 };
 
-export type { Device, DeviceClass, DeviceData, Ruuvi, Admin };
+type Weekly = {
+  year: number;
+  week: number;
+  averageHumidity: number;
+  averageTemperature: number;
+  averagePressure: number;
+  startDate: Date;
+  endDate: Date;
+};
+
+type Monthly = {
+  year: number;
+  month: number;
+  averageHumidity: number;
+  averageTemperature: number;
+  averagePressure: number;
+  startDate: Date;
+  endDate: Date;
+};
+
+type Yearly = {
+  year: number;
+  averageHumidity: number;
+  averageTemperature: number;
+  averagePressure: number;
+  startDate: Date;
+  endDate: Date;
+};
+
+export type {
+  Device,
+  DeviceClass,
+  DeviceData,
+  Ruuvi,
+  Admin,
+  Weekly,
+  Monthly,
+  Yearly,
+};

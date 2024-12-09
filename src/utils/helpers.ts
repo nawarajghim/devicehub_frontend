@@ -441,7 +441,7 @@ const processData = (
 
   // point every 10 minutes for current hour
   if (range === "currenthour") {
-    // 10 minute interval
+    // 10-minute interval
     const interval = 10 * 60 * 1000;
     // start time is the beginning of the hour
     const startTime = new Date(
@@ -450,12 +450,11 @@ const processData = (
       now.getDate(),
       now.getHours()
     );
-    const endTime = now;
 
     const timePoints: Date[] = [];
     for (
       let time = startTime.getTime();
-      time <= endTime.getTime();
+      time <= startTime.getTime() + 60 * 60 * 1000;
       time += interval
     ) {
       timePoints.push(new Date(time));
@@ -473,8 +472,8 @@ const processData = (
           const dataInInterval = macItem.data.filter((data) => {
             const timestamp = new Date(data.timestamp);
             return (
-              timestamp >= new Date(timePoint.getTime() - interval) &&
-              timestamp < timePoint
+              timestamp >= timePoint &&
+              timestamp < new Date(timePoint.getTime() + interval)
             );
           });
 
@@ -500,22 +499,24 @@ const processData = (
     return chartData;
   }
 
-  // point every hour for today
+  // point every 2 hours for today
   if (range === "today") {
-    // 1 hour interval
-    const interval = 60 * 60 * 1000;
+    // 2-hour interval
+    const interval = 2 * 60 * 60 * 1000;
     // start time is the beginning of the day
     const startTime = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate()
+      now.getDate(),
+      0,
+      0,
+      0
     );
-    const endTime = now;
 
     const timePoints: Date[] = [];
     for (
       let time = startTime.getTime();
-      time <= endTime.getTime();
+      time <= startTime.getTime() + 24 * 60 * 60 * 1000;
       time += interval
     ) {
       timePoints.push(new Date(time));
@@ -533,8 +534,8 @@ const processData = (
           const dataInInterval = macItem.data.filter((data) => {
             const timestamp = new Date(data.timestamp);
             return (
-              timestamp >= new Date(timePoint.getTime() - interval) &&
-              timestamp < timePoint
+              timestamp >= timePoint &&
+              timestamp < new Date(timePoint.getTime() + interval)
             );
           });
 
@@ -572,6 +573,8 @@ const processData = (
     );
     const endTime = now;
 
+    const timeLeftInCurrentWeek = 7 - now.getDay();
+
     const timePoints: Date[] = [];
     for (
       let time = startTime.getTime();
@@ -579,6 +582,15 @@ const processData = (
       time += interval
     ) {
       timePoints.push(new Date(time));
+    }
+
+    // if there's time left in the week and there's no data, insert zeros for every day left in the week
+    if (timeLeftInCurrentWeek > 0) {
+      for (let i = 1; i <= timeLeftInCurrentWeek; i++) {
+        timePoints.push(
+          new Date(now.getFullYear(), now.getMonth(), now.getDate() + i)
+        );
+      }
     }
 
     const chartData = {
@@ -627,23 +639,38 @@ const processData = (
     return chartData;
   }
 
-  // point every day for current month
+  // point every week for current month
   if (range === "currentmonth") {
-    // 1 day interval
-    const interval = 24 * 60 * 60 * 1000;
     // start time is the beginning of the month
     const startTime = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endTime = now;
+  
+    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    const endTime = new Date(now.getFullYear(), now.getMonth(), daysInMonth, 23, 59, 59);
+  
+    const firstMonday = new Date(startTime);
+    const dayOfWeek = firstMonday.getDay();
+    if (dayOfWeek !== 1) {
+      firstMonday.setDate(firstMonday.getDate() + (dayOfWeek === 0 ? 1 : 8 - dayOfWeek));
+    }
 
+    const interval = 7 * 24 * 60 * 60 * 1000;
     const timePoints: Date[] = [];
     for (
-      let time = startTime.getTime();
+      let time = firstMonday.getTime();
       time <= endTime.getTime();
       time += interval
     ) {
       timePoints.push(new Date(time));
     }
-
+    // const lastDay = new Date(now.getFullYear(), now.getMonth(), daysInMonth);
+    // if (
+    //   !timePoints.find(
+    //     (point) => point.getDate() === lastDay.getDate() && point.getMonth() === lastDay.getMonth()
+    //   )
+    // ) {
+    //   timePoints.push(lastDay);
+    // }
+  
     const chartData = {
       labels: timePoints.map((time) =>
         time.toLocaleDateString("fi-FI", {
@@ -653,15 +680,18 @@ const processData = (
       ),
       datasets: macData
         .map((macItem) => {
-          const dataPoints = timePoints.map((timePoint) => {
+          const dataPoints = timePoints.map((timePoint, index) => {
+            const intervalStart = index === 0 ? startTime : timePoint;
+            const intervalEnd =
+              index === timePoints.length - 1
+                ? endTime
+                : new Date(timePoints[index + 1].getTime() - 1);
+  
             const dataInInterval = macItem.data.filter((data) => {
               const timestamp = new Date(data.timestamp);
-              return (
-                timestamp >= new Date(timePoint.getTime() - interval) &&
-                timestamp < timePoint
-              );
+              return timestamp >= intervalStart && timestamp <= intervalEnd;
             });
-
+  
             if (dataInInterval.length === 0) {
               return 0;
             }
@@ -669,12 +699,11 @@ const processData = (
             const average = calculateAverage(dataInInterval, selected);
             return average;
           });
-
-          // filter out datasets with all zero values
+  
           if (dataPoints.every((point) => point === 0)) {
             return null;
           }
-
+  
           return {
             label: "RuuviTag MAC:" + macItem.mac,
             data: dataPoints,
@@ -686,16 +715,26 @@ const processData = (
         })
         .filter((dataset) => dataset !== null),
     };
-
+  
     return chartData;
   }
+  
 
   if (range === "currentyear") {
     const startTime = new Date(now.getFullYear(), 0, 1);
     const endTime = now;
 
+    const timeLeftInCurrentYear = 12 - (now.getMonth() + 1);
+
     const timePoints: Date[] = [];
     let currentMonth = new Date(startTime);
+
+    // if there's time left in the year and there's no data, insert zeros for every month left in the year
+    if (timeLeftInCurrentYear > 0) {
+      for (let i = 1; i <= timeLeftInCurrentYear; i++) {
+        timePoints.push(new Date(now.getFullYear(), now.getMonth() + i, 1));
+      }
+    }
 
     // looping though months of year
     while (currentMonth <= endTime) {
@@ -735,7 +774,6 @@ const processData = (
             const average = calculateAverage(dataInInterval, selected);
             return average;
           });
-
           // filter out datasets with all zero values
           if (dataPoints.every((point) => point === 0)) {
             return null;
@@ -756,7 +794,5 @@ const processData = (
     return chartData;
   }
 };
-
-
 
 export { filterData, processData };

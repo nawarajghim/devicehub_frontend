@@ -78,6 +78,33 @@ const RuuviChart = ({
     }
   }
 
+  const assignLabel = (range: string) => {
+    switch (range) {
+      case "1hour":
+        return "last hour";
+      case "24hours":
+        return "last 24 hours";
+      case "7days":
+        return "last 7 days";
+      case "30days":
+        return "last 30 days";
+      case "12months":
+        return "last 12 months";
+      case "currenthour":
+        return "current hour";
+      case "today":
+        return "today";
+      case "currentweek":
+        return "current week";
+      case "currentmonth":
+        return "current month";
+      case "currentyear":
+        return "current year";
+      default:
+        return "last hour";
+    }
+  };
+
   function generateCSV(data: Ruuvi[]) {
     if (!data.length) {
       return "No data available";
@@ -99,7 +126,7 @@ const RuuviChart = ({
     const csv = generateCSV(filteredData);
     // date without time separators
     const now = new Date();
-    const date = now.toLocaleDateString("fi-FI"); // e.g., "21.11.2024"
+    const date = now.toLocaleDateString("fi-FI");
     const time = now.toLocaleTimeString("fi-FI", {
       hour: "2-digit",
       minute: "2-digit",
@@ -128,22 +155,22 @@ const RuuviChart = ({
 
     const filteredData = filterData(range, ruuviTagData);
 
-    if (!filteredData || filteredData.length === 0) {
-      console.log("No data available for the selected range");
-      setData({
-        labels: [],
-        datasets: [
-          {
-            label: "No Data",
-            data: [0],
-            fill: false,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-          },
-        ],
-      });
-      return;
-    }
+    // if (!filteredData || filteredData.length === 0) {
+    //   console.log("No data available for the selected range");
+    //   setData({
+    //     labels: [],
+    //     datasets: [
+    //       {
+    //         label: "No Data",
+    //         data: [0],
+    //         fill: false,
+    //         backgroundColor: "rgba(75,192,192,0.4)",
+    //         borderColor: "rgba(75,192,192,1)",
+    //       },
+    //     ],
+    //   });
+    //   return;
+    // }
 
     setFilteredData(filteredData);
 
@@ -181,6 +208,7 @@ const RuuviChart = ({
     <>
       <div className="chart-container">
         <Line
+          key={`${range}-${selected}`}
           data={data}
           options={{
             plugins: {
@@ -190,7 +218,9 @@ const RuuviChart = ({
               },
               title: {
                 display: true,
-                text: `${selected.toUpperCase()} data for the last ${range}`,
+                text: `${selected.toUpperCase()} data for${
+                  range === "today" ? "" : " the"
+                } ${assignLabel(range)}`,
               },
             },
             scales: {
