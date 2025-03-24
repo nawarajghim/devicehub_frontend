@@ -1,3 +1,4 @@
+/*************  ✨ Codeium Command 🌟  *************/
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { UpdateProvider } from "./contexts/UpdateContexts";
 import Home from "./views/Home";
@@ -5,6 +6,7 @@ import Layout from "./views/Layout";
 import Devices from "./views/Devices";
 import "./App.css";
 import Login from "./views/Login";
+import NotFound from "./views/NotFound";
 
 import Data from "./views/data";
 import { UserProvider } from "./contexts/UserContext";
@@ -26,6 +28,8 @@ const App: React.FC = () => {
                 <Route path="/devices/name/:deviceName" element={<Data />} />
               </Route>
               <Route path="/login" element={<Login />} />
+              {/* Catch all route */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </UpdateProvider>
         </UserProvider>
@@ -35,3 +39,5 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+/******  f2160912-a5b6-43e9-ab6b-bdd29e51bd8d  *******/

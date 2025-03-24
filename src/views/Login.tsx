@@ -124,7 +124,7 @@ const Login: React.FC = () => {
                     >
                       {loading ? <div className="spinner"></div> : "Log In"}
                     </button>
-                    {error && <p className="error-message">{error}</p>}
+                    {error && <div className="error-message"><span>{error}</span></div>}
                   </form>
                 </>
               )}
