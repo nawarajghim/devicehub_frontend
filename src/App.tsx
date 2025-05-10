@@ -10,6 +10,7 @@ import NotFound from "./views/NotFound";
 
 import Data from "./views/data";
 import { UserProvider } from "./contexts/UserContext";
+import NewDevices from "./views/NewDevices";
 
 // App Component
 const App: React.FC = () => {
@@ -26,6 +27,7 @@ const App: React.FC = () => {
                 <Route path="/devices" element={<Devices />} />
                 {/* Data page accessible without login */}
                 <Route path="/devices/name/:deviceName" element={<Data />} />
+                <Route path="/detected-new-devices" element={<NewDevices />} />
               </Route>
               <Route path="/login" element={<Login />} />
               {/* Catch all route */}

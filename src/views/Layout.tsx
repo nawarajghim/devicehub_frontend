@@ -1,23 +1,29 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {useUserContext} from "../hooks/contextHooks";
+import { useUserContext } from "../hooks/contextHooks";
+import { useUser } from "../hooks/apiHooks";
 
 const Layout = () => {
+  const [role, setRole] = useState<string | null>(null);
   const location = useLocation();
-  const [navbarClass, setNavbarClass] = useState("home");
   const { isLoggedIn } = useUserContext();
+  const { getRoleByToken } = useUser();
+
+  const implementCondition = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const role = await getRoleByToken();
+      if (role === "admin") {
+        setRole("admin");
+      } else {
+        setRole("user");
+      }
+    }
+  };
 
   useEffect(() => {
-    if (location.pathname === "/devices") {
-      setNavbarClass("devices");
-    } else if (location.pathname === "/login") {
-      setNavbarClass("login");
-    } else if (location.pathname === "/") {
-      setNavbarClass("home");
-    } else  {
-      setNavbarClass("data");
-    }
-  }, [location]);
+    implementCondition();
+  }, []);
 
   return (
     <>
@@ -27,7 +33,11 @@ const Layout = () => {
             <ul>
               <li className="navi">
                 <Link to="/login">
-                  <p>
+                  <p
+                    className={`navi-p ${
+                      location.pathname === "/login" ? "navi-p-active" : ""
+                    }`}
+                  >
                     <svg
                       width="20"
                       height="20"
@@ -58,10 +68,14 @@ const Layout = () => {
                   </p>
                 </Link>
               </li>
-              <li className="navi">
+              <li
+                className={`navi ${location.pathname === "/" ? "active" : ""}`}
+              >
                 <Link to="/">
                   <p
-                    className={location.pathname === "/" ? "navi-p-active" : ""}
+                    className={`navi-p ${
+                      location.pathname === "/" ? "navi-p-active" : ""
+                    }`}
                   >
                     <svg
                       width="20"
@@ -95,12 +109,16 @@ const Layout = () => {
                   </p>
                 </Link>
               </li>
-              <li className="navi">
+              <li
+                className={`navi ${
+                  location.pathname === "/devices" ? "active" : ""
+                }`}
+              >
                 <Link to="/devices">
                   <p
-                    className={
+                    className={`navi-p ${
                       location.pathname === "/devices" ? "navi-p-active" : ""
-                    }
+                    }`}
                   >
                     <svg
                       width="20"
@@ -124,43 +142,87 @@ const Layout = () => {
                 </Link>
               </li>
 
-              <li className="navi navi-overview">
-              <p 
-                className={
-                  /^\/devices\/name\/[^\/]+$/.test(location.pathname)  // Ensure this pattern matches correctly
-                    ? "navi-p-active navi-p-icon-DO" 
-                    : ""
-                }
-              >
-                <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path 
-                                     
-                className={
-                /^\/devices\/name\/[^\/]+$/.test(location.pathname) 
-                ? "navi-p-icon-DO"
-                 : ""
-                                     }
-                d="M13.3333 8.66668H14.5833V11.0167L16.6166 12.1917L15.9916 13.275L13.3333 11.7417V8.66668ZM14.1666 7.00001C13.0615 7.00001 12.0017 7.439 11.2203 8.2204C10.4389 9.0018 9.99992 10.0616 9.99992 11.1667C9.99992 12.2717 10.4389 13.3316 11.2203 14.113C12.0017 14.8944 13.0615 15.3333 14.1666 15.3333C15.2717 15.3333 16.3315 14.8944 17.1129 14.113C17.8943 13.3316 18.3333 12.2717 18.3333 11.1667C18.3333 10.0616 17.8943 9.0018 17.1129 8.2204C16.3315 7.439 15.2717 7.00001 14.1666 7.00001ZM14.1666 5.33334C15.7137 5.33334 17.1974 5.94793 18.2914 7.04189C19.3853 8.13585 19.9999 9.61958 19.9999 11.1667C19.9999 12.7138 19.3853 14.1975 18.2914 15.2915C17.1974 16.3854 15.7137 17 14.1666 17C11.8416 17 9.83325 15.6333 8.89159 13.6667H0.833252V11.1667C0.833252 8.95001 5.27492 7.83334 7.49992 7.83334C7.99992 7.83334 8.61659 7.89168 9.26659 8.00001C9.79515 7.18118 10.5207 6.50802 11.3767 6.04214C12.2327 5.57627 13.192 5.33257 14.1666 5.33334ZM8.33325 11.1667C8.33325 10.5833 8.41658 10.0167 8.57492 9.50001C8.22492 9.44168 7.85825 9.41668 7.49992 9.41668C5.02492 9.41668 2.41659 10.6333 2.41659 11.1667V12.0833H8.40825C8.35812 11.7804 8.33304 11.4738 8.33325 11.1667ZM7.49992 0.333344C8.38397 0.333344 9.23182 0.684533 9.85694 1.30965C10.4821 1.93478 10.8333 2.78262 10.8333 3.66668C10.8333 4.55073 10.4821 5.39858 9.85694 6.0237C9.23182 6.64882 8.38397 7.00001 7.49992 7.00001C6.61586 7.00001 5.76802 6.64882 5.1429 6.0237C4.51777 5.39858 4.16659 4.55073 4.16659 3.66668C4.16659 2.78262 4.51777 1.93478 5.1429 1.30965C5.76802 0.684533 6.61586 0.333344 7.49992 0.333344ZM7.49992 1.91668C7.03579 1.91668 6.59067 2.10105 6.26248 2.42924C5.93429 2.75743 5.74992 3.20255 5.74992 3.66668C5.74992 4.13081 5.93429 4.57593 6.26248 4.90411C6.59067 5.2323 7.03579 5.41668 7.49992 5.41668C7.96405 5.41668 8.40917 5.2323 8.73736 4.90411C9.06554 4.57593 9.24992 4.13081 9.24992 3.66668C9.24992 3.20255 9.06554 2.75743 8.73736 2.42924C8.40917 2.10105 7.96405 1.91668 7.49992 1.91668Z" fill="#101010"/>
-                </svg>
-                Data overview
-            </p>
-              </li>
-              
+              {/^\/devices\/name\/[^\/]+$/.test(location.pathname) && (
+                <li
+                  className={`navi ${
+                    /^\/devices\/name\/[^\/]+$/.test(location.pathname) // Ensure this pattern matches correctly
+                      ? "active"
+                      : ""
+                  }`}
+                >
+                  <p
+                    className={`navi-p ${
+                      /^\/devices\/name\/[^\/]+$/.test(location.pathname) // Ensure this pattern matches correctly
+                        ? "navi-p-active navi-p-icon-DO"
+                        : ""
+                    }`}
+                  >
+                    <svg
+                      width="20"
+                      height="17"
+                      viewBox="0 0 20 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        className={
+                          /^\/devices\/name\/[^\/]+$/.test(location.pathname)
+                            ? "navi-p-icon-DO"
+                            : ""
+                        }
+                        d="M13.3333 8.66668H14.5833V11.0167L16.6166 12.1917L15.9916 13.275L13.3333 11.7417V8.66668ZM14.1666 7.00001C13.0615 7.00001 12.0017 7.439 11.2203 8.2204C10.4389 9.0018 9.99992 10.0616 9.99992 11.1667C9.99992 12.2717 10.4389 13.3316 11.2203 14.113C12.0017 14.8944 13.0615 15.3333 14.1666 15.3333C15.2717 15.3333 16.3315 14.8944 17.1129 14.113C17.8943 13.3316 18.3333 12.2717 18.3333 11.1667C18.3333 10.0616 17.8943 9.0018 17.1129 8.2204C16.3315 7.439 15.2717 7.00001 14.1666 7.00001ZM14.1666 5.33334C15.7137 5.33334 17.1974 5.94793 18.2914 7.04189C19.3853 8.13585 19.9999 9.61958 19.9999 11.1667C19.9999 12.7138 19.3853 14.1975 18.2914 15.2915C17.1974 16.3854 15.7137 17 14.1666 17C11.8416 17 9.83325 15.6333 8.89159 13.6667H0.833252V11.1667C0.833252 8.95001 5.27492 7.83334 7.49992 7.83334C7.99992 7.83334 8.61659 7.89168 9.26659 8.00001C9.79515 7.18118 10.5207 6.50802 11.3767 6.04214C12.2327 5.57627 13.192 5.33257 14.1666 5.33334ZM8.33325 11.1667C8.33325 10.5833 8.41658 10.0167 8.57492 9.50001C8.22492 9.44168 7.85825 9.41668 7.49992 9.41668C5.02492 9.41668 2.41659 10.6333 2.41659 11.1667V12.0833H8.40825C8.35812 11.7804 8.33304 11.4738 8.33325 11.1667ZM7.49992 0.333344C8.38397 0.333344 9.23182 0.684533 9.85694 1.30965C10.4821 1.93478 10.8333 2.78262 10.8333 3.66668C10.8333 4.55073 10.4821 5.39858 9.85694 6.0237C9.23182 6.64882 8.38397 7.00001 7.49992 7.00001C6.61586 7.00001 5.76802 6.64882 5.1429 6.0237C4.51777 5.39858 4.16659 4.55073 4.16659 3.66668C4.16659 2.78262 4.51777 1.93478 5.1429 1.30965C5.76802 0.684533 6.61586 0.333344 7.49992 0.333344ZM7.49992 1.91668C7.03579 1.91668 6.59067 2.10105 6.26248 2.42924C5.93429 2.75743 5.74992 3.20255 5.74992 3.66668C5.74992 4.13081 5.93429 4.57593 6.26248 4.90411C6.59067 5.2323 7.03579 5.41668 7.49992 5.41668C7.96405 5.41668 8.40917 5.2323 8.73736 4.90411C9.06554 4.57593 9.24992 4.13081 9.24992 3.66668C9.24992 3.20255 9.06554 2.75743 8.73736 2.42924C8.40917 2.10105 7.96405 1.91668 7.49992 1.91668Z"
+                        fill="#101010"
+                      />
+                    </svg>
+                    Data overview
+                  </p>
+                </li>
+              )}
+              {role === "admin" && (
+                <li
+                  className={`navi ${
+                    location.pathname === "/detected-new-devices"
+                      ? "active"
+                      : ""
+                  }`}
+                >
+                  <Link to="/detected-new-devices">
+                    <p
+                      className={`navi-p ${
+                        location.pathname === "/detected-new-devices"
+                          ? "navi-p-active"
+                          : ""
+                      }`}
+                    >
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18 16V11C18 7.68629 15.3137 5 12 5C8.68629 5 6 7.68629 6 11V16L4 18V19H20V18L18 16Z"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M13.73 21C13.5542 21.3031 13.3018 21.5545 12.9988 21.7294C12.6958 21.9042 12.3533 21.9961 12.003 21.9961C11.6527 21.9961 11.3102 21.9042 11.0072 21.7294C10.7042 21.5545 10.4518 21.3031 10.276 21"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      Detected new devices
+                    </p>
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
-
-          {/* Apply dynamic navbar class */}
-          <div className={`navbar ${navbarClass}`}>
-
-          <svg className="navisvg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 560 288">
-
-          
-            <g>
-              <path  d="M433.43,2.04v52.13h-.02c0,.33.02.65.02.98,0,25.87-20.19,46.84-45.09,46.84-.06,0-.13,0-.19,0h0s-310.19,0-310.19,0c-22.95,0-41.73,18.51-43.28,41.94,1.55,22.56,20.33,40.38,43.28,40.38h310.19c.06,0,.13,0,.19,0,24.9,0,45.09,20.19,45.09,45.09,0,.32-.02.63-.02.94h.02v50.19h72.45V2.04h-72.45Z"/>
-            </g>
-          
-          </svg>
-          </div>
         </header>
         <main className="mainpage">
           <Outlet />

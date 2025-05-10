@@ -1,26 +1,29 @@
-import { useEffect, useState } from 'react';
-import {Device} from '../types/DBTypes';
+import { useEffect, useState } from "react";
+import { Device } from "../types/DBTypes";
+import { NewDevice } from "../views/NewDevices";
 
-const useWebSocket = (url: string) => {
-  const [data, setData] = useState<Device | null>(null);
+const useWebSocket = (url: string, eventType: string) => {
+  const [data, setData] = useState<Device | NewDevice | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
   useEffect(() => {
     const socket = new WebSocket(url);
 
-    socket.addEventListener('open', () => {
+    socket.addEventListener("open", () => {
       setIsConnected(true);
-      console.log('Connected to WebSocket server');
+      console.log("Connected to WebSocket server");
     });
 
-    socket.addEventListener('message', (event) => {
+    socket.addEventListener("message", (event) => {
       const receivedData = JSON.parse(event.data);
-      setData(receivedData);
+      if (receivedData.event_type === eventType)
+        return setData(receivedData.data);
+      setData(null);
     });
 
-    socket.addEventListener('close', () => {
+    socket.addEventListener("close", () => {
       setIsConnected(false);
-      console.log('Disconnected from WebSocket server');
+      console.log("Disconnected from WebSocket server");
     });
 
     return () => {
