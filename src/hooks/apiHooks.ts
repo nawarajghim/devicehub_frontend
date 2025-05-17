@@ -7,6 +7,7 @@ import {
   RoleResponse,
 } from "../types/MessageTypes";
 import {
+  DetectedDevice,
   Device,
   DeviceClass,
   DeviceData,
@@ -42,6 +43,32 @@ const useFetchDevices = () => {
   }, []);
 
   return { devices, loading, error, fetchDevices };
+};
+
+// Hook to get a single device by name
+const useFetchDetectedDevices = () => {
+  const [detectedDevices, setDetectedDevices] = useState<DetectedDevice[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDevice = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get<DetectedDevice[]>(
+          `http://localhost:3000/api/v1/devices/detectedDevices/new`
+        );
+        setDetectedDevices(response.data);
+      } catch {
+        setError("Failed to fetch device");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDevice();
+  }, []);
+  return { detectedDevices, loading, error };
 };
 
 // Hook to get a single device by name
@@ -540,4 +567,5 @@ export {
   useDeleteDevice,
   useUser,
   useAuth,
+  useFetchDetectedDevices,
 };

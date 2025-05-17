@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 import useWebSocket from "../hooks/webSocketHooks";
-import { Device } from "../types/DBTypes";
+import { useFetchDetectedDevices } from "../hooks/apiHooks";
 
 export type NewDevice = {
   device_name: string;
 };
 
 const NewDevices: React.FC = () => {
-  const [devices, setDevices] = useState<NewDevice>([]);
+  const [devices, setDevices] = useState<NewDevice[]>([]);
+  const { detectedDevices, loading } = useFetchDetectedDevices();
   const { data, isConnected } = useWebSocket(
     "ws://localhost:3000",
     "new_device_alert_stream"
@@ -17,21 +18,31 @@ const NewDevices: React.FC = () => {
   useEffect(() => {
     if (
       data &&
-      !devices.some((device) => device.device_name === data.device_name)
+      !devices.some(
+        (device) => device.device_name === (data as NewDevice).device_name
+      )
     ) {
-      setDevices((prevDevices: NewDevice[]) => [...prevDevices, data]);
+      setDevices((prevDevices: NewDevice[]) => [
+        ...prevDevices,
+        data as NewDevice,
+      ]);
     }
   }, [data]);
 
-  if (!isConnected) {
-    return (
-      <div className="additional-info">
-        <p>Connecting to WebSocket...</p>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (detectedDevices) {
+      const newDevices = detectedDevices
+        .filter(
+          (device) =>
+            !devices.some((d) => d.device_name === device.data.device_name)
+        )
+        .map((device) => device.data);
 
-  if (!data) {
+      newDevices.length > 0 && setDevices([...devices, ...newDevices]);
+    }
+  }, [detectedDevices]);
+
+  if (loading) {
     return (
       <div className="additional-info">
         <p>Loading the data...</p>

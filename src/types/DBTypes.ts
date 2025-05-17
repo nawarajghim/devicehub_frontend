@@ -11,6 +11,12 @@ type Device = {
   last_updated: Date;
 };
 
+export type DetectedDevice = {
+  event_type: string;
+  data: { device_name: string };
+  last_updated: Date;
+};
+
 type DeviceClass = {
   name: string;
   type: Array<string>;
