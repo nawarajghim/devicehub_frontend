@@ -111,6 +111,7 @@ const usePostDevice = () => {
       await axios.post("http://localhost:3000/api/v1/devices", device);
     } catch {
       setError("Failed to post device");
+      throw new Error("Failed to post device");
     } finally {
       setLoading(false);
     }
@@ -136,6 +137,7 @@ const useUpdateDevice = () => {
       );
     } catch {
       setError("Failed to update device");
+      throw new Error("Failed to update device");
     } finally {
       setLoading(false);
     }

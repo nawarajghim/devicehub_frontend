@@ -1,0 +1,22 @@
+.new-device-wrapper {
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.new-device-list {
+  list-style: none;
+  overflow-y: auto;
+  padding: 0 12px !important;
+}
+
+.new-device-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px 0px 20px;
+  border: 1px solid rgb(222, 220, 220);
+  background-color: rgb(252, 249, 249);
+  border-radius: 12px;
+  margin: 8px 0;
+}

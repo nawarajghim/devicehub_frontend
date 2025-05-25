@@ -13,7 +13,7 @@ type Device = {
 
 export type DetectedDevice = {
   event_type: string;
-  data: { device_name: string };
+  data: { name: string };
   last_updated: Date;
 };
 
