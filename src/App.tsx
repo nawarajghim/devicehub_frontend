@@ -27,7 +27,7 @@ const App: React.FC = () => {
                 <Route path="/devices" element={<Devices />} />
                 {/* Data page accessible without login */}
                 <Route path="/devices/name/:deviceName" element={<Data />} />
-                <Route path="/detected-new-devices" element={<NewDevices />} />
+                <Route path="/devices/detected" element={<NewDevices />} />
               </Route>
               <Route path="/login" element={<Login />} />
               {/* Catch all route */}

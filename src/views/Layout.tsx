@@ -181,15 +181,13 @@ const Layout = () => {
               {role === "admin" && (
                 <li
                   className={`navi ${
-                    location.pathname === "/detected-new-devices"
-                      ? "active"
-                      : ""
+                    location.pathname === "/devices/detected" ? "active" : ""
                   }`}
                 >
-                  <Link to="/detected-new-devices">
+                  <Link to="/devices/detected">
                     <p
                       className={`navi-p ${
-                        location.pathname === "/detected-new-devices"
+                        location.pathname === "/devices/detected"
                           ? "navi-p-active"
                           : ""
                       }`}
