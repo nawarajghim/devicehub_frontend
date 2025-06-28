@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import RuuviChart from "./RuuviChart";
+import { Device } from "../types/DBTypes";
 
-const Statistic: React.FC = () => {
+const Statistic = ({ device }: { device: Device }) => {
   const [range, setRange] = useState("1hour");
   const [selected, setSelected] = useState("temperature");
 
@@ -35,7 +36,7 @@ const Statistic: React.FC = () => {
           <option value="currentyear">Current year</option>
         </select>
       </div>
-      <RuuviChart range={range} selected={selected} />
+      <RuuviChart range={range} selected={selected} device={device} />
     </div>
   );
 };

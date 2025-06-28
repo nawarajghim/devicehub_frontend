@@ -1,10 +1,10 @@
-import React from "react";
 import Statistic from "./Statistics";
+import { Device } from "../types/DBTypes";
 
-const LeftPanel: React.FC = () => {
+const LeftPanel = ({ device }: { device: Device }) => {
   return (
     <div className="left-panel">
-      <Statistic />
+      <Statistic device={device} />
     </div>
   );
 };

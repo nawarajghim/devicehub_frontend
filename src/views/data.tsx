@@ -24,7 +24,7 @@ const Data: React.FC = () => {
         <div className="content">
           <div className="left-section">
             <h2>{deviceName}</h2>
-            <LeftPanel />
+            <LeftPanel device={device} />
           </div>
           <div className="right-section">
             <RightPanel device={device} />

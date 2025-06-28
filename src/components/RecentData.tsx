@@ -6,7 +6,7 @@ const RecentData: React.FC<{ device: Device }> = ({ device }) => {
     "ws://localhost:3000",
     "mongodb_change_stream"
   );
-
+  console.log(data);
   if (!isConnected) {
     return (
       <div className="additional-info">

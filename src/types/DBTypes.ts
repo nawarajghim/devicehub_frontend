@@ -5,6 +5,7 @@ type Device = {
   location?: string;
   settings?: string;
   status: string;
+  _id: string;
   data: {
     [key: string]: string | number;
   };

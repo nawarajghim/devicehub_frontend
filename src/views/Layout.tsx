@@ -227,7 +227,7 @@ const Layout = () => {
         </main>
       </div>
       <footer className="footer">
-        <p>Device hub © 2024</p>
+        <p>Device hub © 2025</p>
       </footer>
     </>
   );

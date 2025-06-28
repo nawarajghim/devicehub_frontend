@@ -132,10 +132,12 @@ const calculateAverage = (dataInInterval: Ruuvi[], selected: string) => {
 // };
 
 const processData = (
+  deviceName: string,
   range: string,
   selected: string,
   macData: { mac: string; data: Ruuvi[] }[]
 ) => {
+  console.log(macData);
   const now = new Date();
   // point every 10 minutes for 1 hour
   if (range === "1hour") {
@@ -180,7 +182,7 @@ const processData = (
         });
 
         return {
-          label: "RuuviTag MAC:" + macItem.mac,
+          label: `${deviceName} MAC: ` + macItem.mac,
           data: dataPoints,
           fill: false,
           backgroundColor: "rgba(75, 192, 192, 0.5)",
@@ -643,14 +645,27 @@ const processData = (
   if (range === "currentmonth") {
     // start time is the beginning of the month
     const startTime = new Date(now.getFullYear(), now.getMonth(), 1);
-  
-    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    const endTime = new Date(now.getFullYear(), now.getMonth(), daysInMonth, 23, 59, 59);
-  
+
+    const daysInMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1,
+      0
+    ).getDate();
+    const endTime = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      daysInMonth,
+      23,
+      59,
+      59
+    );
+
     const firstMonday = new Date(startTime);
     const dayOfWeek = firstMonday.getDay();
     if (dayOfWeek !== 1) {
-      firstMonday.setDate(firstMonday.getDate() + (dayOfWeek === 0 ? 1 : 8 - dayOfWeek));
+      firstMonday.setDate(
+        firstMonday.getDate() + (dayOfWeek === 0 ? 1 : 8 - dayOfWeek)
+      );
     }
 
     const interval = 7 * 24 * 60 * 60 * 1000;
@@ -670,7 +685,7 @@ const processData = (
     // ) {
     //   timePoints.push(lastDay);
     // }
-  
+
     const chartData = {
       labels: timePoints.map((time) =>
         time.toLocaleDateString("fi-FI", {
@@ -686,12 +701,12 @@ const processData = (
               index === timePoints.length - 1
                 ? endTime
                 : new Date(timePoints[index + 1].getTime() - 1);
-  
+
             const dataInInterval = macItem.data.filter((data) => {
               const timestamp = new Date(data.timestamp);
               return timestamp >= intervalStart && timestamp <= intervalEnd;
             });
-  
+
             if (dataInInterval.length === 0) {
               return 0;
             }
@@ -699,11 +714,11 @@ const processData = (
             const average = calculateAverage(dataInInterval, selected);
             return average;
           });
-  
+
           if (dataPoints.every((point) => point === 0)) {
             return null;
           }
-  
+
           return {
             label: "RuuviTag MAC:" + macItem.mac,
             data: dataPoints,
@@ -715,10 +730,9 @@ const processData = (
         })
         .filter((dataset) => dataset !== null),
     };
-  
+
     return chartData;
   }
-  
 
   if (range === "currentyear") {
     const startTime = new Date(now.getFullYear(), 0, 1);

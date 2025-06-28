@@ -375,18 +375,22 @@ const useDeleteDeviceData = () => {
 /******************RuuviTag (example of IoT device)******************/
 
 // Hook to get all RuuviTag data
-const useFetchRuuviTagData = () => {
+const useFetchRuuviTagData = (deviceId: string) => {
   const [ruuviTagData, setRuuviTagData] = useState<Ruuvi[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchRuuviTagData = async () => {
+    const fetchRuuviTagData = async (deviceId: string | null) => {
+      if (!deviceId) {
+        return;
+      }
+
       setLoading(true);
       setError(null);
       try {
         const response = await axios.get<Ruuvi[]>(
-          "http://localhost:3000/api/v1/ruuvi"
+          `http://localhost:3000/api/v1/ruuvi/${deviceId}`
         );
         if (response.data) {
           setRuuviTagData(response.data);
@@ -399,8 +403,8 @@ const useFetchRuuviTagData = () => {
         setLoading(false);
       }
     };
-    fetchRuuviTagData();
-  }, []);
+    fetchRuuviTagData(deviceId);
+  }, [deviceId]);
 
   return { ruuviTagData, loading, error };
 };

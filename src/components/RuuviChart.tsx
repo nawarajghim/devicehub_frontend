@@ -13,7 +13,7 @@ import {
 
 import { useFetchRuuviTagData, useUser } from "../hooks/apiHooks";
 import { filterData, processData } from "../utils/helpers";
-import { Ruuvi } from "../types/DBTypes";
+import { Device, Ruuvi } from "../types/DBTypes";
 
 ChartJS.register(
   CategoryScale,
@@ -40,13 +40,16 @@ type ChartData = {
 const RuuviChart = ({
   range,
   selected,
+  device,
 }: {
   range: string;
   selected: string;
+  device: Device;
 }) => {
+  console.log({ device: device._id });
   const { getRoleByToken } = useUser();
   const [role, setRole] = useState<string | null>(null);
-  const { ruuviTagData, loading, error } = useFetchRuuviTagData();
+  const { ruuviTagData, loading, error } = useFetchRuuviTagData(device?._id);
   const [data, setData] = useState<ChartData>({
     labels: [],
     datasets: [],
@@ -135,7 +138,7 @@ const RuuviChart = ({
     const blob = new Blob([csv], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
-    const filename = `ruuvi_data_${range}_${date}_${time}.csv`;
+    const filename = `devicehub_data_${range}_${date}_${time}.csv`;
     a.href = url;
     a.download = filename;
     a.click();
@@ -181,7 +184,7 @@ const RuuviChart = ({
     });
     console.log("macData", macData);
 
-    const chartData = processData(range, selected, macData);
+    const chartData = processData(device.name, range, selected, macData);
     if (!chartData) {
       console.log("No data available for the selected range");
       setData({
