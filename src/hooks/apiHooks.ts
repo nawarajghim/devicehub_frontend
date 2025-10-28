@@ -510,7 +510,7 @@ const useUser = () => {
       },
     };
     const result = await axios.post<RoleResponse>(
-      `api/v1/login/role`,
+      `${import.meta.env.VITE_API_URL}/login/role`,
       {},
       options
     );
@@ -544,11 +544,15 @@ const useUser = () => {
 
 const useAuth = () => {
   const postLogin = async (values: Values) => {
-    const result = await axios.post<DBMessageResponse>(`api/v1/login`, values, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const result = await axios.post<DBMessageResponse>(
+      `${import.meta.env.VITE_API_URL}/login`,
+      values,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (result) {
       return result;
     } else {
