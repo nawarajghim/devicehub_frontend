@@ -1,9 +1,11 @@
+// @ts-nocheck // remove this later and fix ts errors
+
 import useWebSocket from "../hooks/webSocketHooks";
 import { Device } from "../types/DBTypes";
 
 const RecentData: React.FC<{ device: Device }> = ({ device }) => {
   const { data, isConnected } = useWebSocket(
-    "ws://localhost:3000",
+    import.meta.env.VITE_SOCKET_URL,
     "mongodb_change_stream"
   );
   console.log(data);

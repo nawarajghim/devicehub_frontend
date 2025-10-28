@@ -28,7 +28,7 @@ const useFetchDevices = () => {
     setError(null);
     try {
       const response = await axios.get<Device[]>(
-        "http://localhost:3000/api/v1/devices"
+        `${import.meta.env.VITE_API_URL}/devices`
       );
       setDevices(response.data);
     } catch {
@@ -57,7 +57,7 @@ const useFetchDetectedDevices = () => {
       setError(null);
       try {
         const response = await axios.get<DetectedDevice[]>(
-          `http://localhost:3000/api/v1/devices/detectedDevices/new`
+          `${import.meta.env.VITE_API_URL}/devices/detectedDevices/new`
         );
         setDetectedDevices(response.data);
       } catch {
@@ -83,7 +83,7 @@ const useFetchDevice = (name: string) => {
       setError(null);
       try {
         const response = await axios.get<Device>(
-          `http://localhost:3000/api/v1/devices/name/${name}`
+          `${import.meta.env.VITE_API_URL}/devices/name/${name}`
         );
         setDevice(response.data);
       } catch {
@@ -108,7 +108,7 @@ const usePostDevice = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.post("http://localhost:3000/api/v1/devices", device);
+      await axios.post(`${import.meta.env.VITE_API_URL}/devices`, device);
     } catch {
       setError("Failed to post device");
       throw new Error("Failed to post device");
@@ -132,7 +132,7 @@ const useUpdateDevice = () => {
     setError(null);
     try {
       await axios.put(
-        `http://localhost:3000/api/v1/devices/name/${name}`,
+        `${import.meta.env.VITE_API_URL}/devices/name/${name}`,
         device
       );
     } catch {
@@ -154,7 +154,9 @@ const useDeleteDevice = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`http://localhost:3000/api/v1/devices/name/${name}`);
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/devices/name/${name}`
+      );
     } catch {
       setError("Failed to delete device");
     } finally {
@@ -178,7 +180,7 @@ const useFetchDeviceClasses = () => {
       setError(null);
       try {
         const response = await axios.get<DeviceClass[]>(
-          "http://localhost:3000/api/v1/deviceclasses"
+          `${import.meta.env.VITE_API_URL}/deviceclasses`
         );
         setDeviceClasses(response.data);
       } catch {
@@ -204,7 +206,7 @@ const useFetchDeviceClass = (name: string) => {
       setError(null);
       try {
         const response = await axios.get<DeviceClass>(
-          `http://localhost:3000/api/v1/deviceclasses/${name}`
+          `${import.meta.env.VITE_API_URL}/deviceclasses/${name}`
         );
         setDeviceClass(response.data);
       } catch {
@@ -227,7 +229,7 @@ const useUpdateDeviceClass = () => {
     setError(null);
     try {
       await axios.put(
-        `http://localhost:3000/api/v1/deviceclasses/${name}`,
+        `${import.meta.env.VITE_API_URL}/deviceclasses/${name}`,
         deviceClass
       );
     } catch {
@@ -248,7 +250,9 @@ const useDeleteDeviceClass = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`http://localhost:3000/api/v1/deviceclasses/${name}`);
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/deviceclasses/${name}`
+      );
     } catch {
       setError("Failed to delete device class");
     } finally {
@@ -272,7 +276,7 @@ const useFetchDeviceData = () => {
       setError(null);
       try {
         const response = await axios.get<DeviceData[]>(
-          "http://localhost:3000/api/v1/devicedata"
+          `${import.meta.env.VITE_API_URL}/devicedata`
         );
         setDeviceData(response.data);
       } catch {
@@ -298,7 +302,7 @@ const useFetchDeviceDataByDeviceId = (deviceId: number) => {
       setError(null);
       try {
         const response = await axios.get<DeviceData[]>(
-          `http://localhost:3000/api/v1/devicedata/${deviceId}`
+          `${import.meta.env.VITE_API_URL}/devicedata/${deviceId}`
         );
         setDeviceData(response.data);
       } catch {
@@ -321,7 +325,10 @@ const usePostDeviceData = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.post("http://localhost:3000/api/v1/devicedata", deviceData);
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/devicedata`,
+        deviceData
+      );
     } catch {
       setError("Failed to post device data");
     } finally {
@@ -341,7 +348,7 @@ const useUpdateDeviceData = () => {
     setError(null);
     try {
       await axios.put(
-        `http://localhost:3000/api/v1/devicedata/${deviceId}`,
+        `${import.meta.env.VITE_API_URL}/devicedata/${deviceId}`,
         deviceData
       );
     } catch {
@@ -362,7 +369,9 @@ const useDeleteDeviceData = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`http://localhost:3000/api/v1/devicedata/${deviceId}`);
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/devicedata/${deviceId}`
+      );
     } catch {
       setError("Failed to delete device data");
     } finally {
@@ -390,7 +399,7 @@ const useFetchRuuviTagData = (deviceId: string) => {
       setError(null);
       try {
         const response = await axios.get<Ruuvi[]>(
-          `http://localhost:3000/api/v1/ruuvi/${deviceId}`
+          `${import.meta.env.VITE_API_URL}/ruuvi/${deviceId}`
         );
         if (response.data) {
           setRuuviTagData(response.data);
@@ -422,7 +431,7 @@ const useAggregatedWeeklyData = () => {
       setError(null);
       try {
         const response = await axios.get<Weekly[]>(
-          "http://localhost:3000/api/v1/aggregation/weekly"
+          `${import.meta.env.VITE_API_URL}/aggregation/weekly`
         );
         setAggregatedWeekly(response.data);
       } catch {
@@ -448,7 +457,7 @@ const useAggregatedMonthlyData = () => {
       setError(null);
       try {
         const response = await axios.get<Weekly[]>(
-          "http://localhost:3000/api/v1/aggregation/monthly"
+          `${import.meta.env.VITE_API_URL}/aggregation/monthly`
         );
         setAggregatedMonthly(response.data);
       } catch {
@@ -474,7 +483,7 @@ const useAggregatedYearlyData = () => {
       setError(null);
       try {
         const response = await axios.get<Weekly[]>(
-          "http://localhost:3000/api/v1/aggregation/yearly"
+          `${import.meta.env.VITE_API_URL}/aggregation/yearly`
         );
         setAggregatedYearly(response.data);
       } catch {
@@ -501,7 +510,7 @@ const useUser = () => {
       },
     };
     const result = await axios.post<RoleResponse>(
-      "http://localhost:3000/api/v1/login/role",
+      `${import.meta.env.VITE_API_URL}/login/role`,
       {},
       options
     );
@@ -520,7 +529,7 @@ const useUser = () => {
       },
     };
     const result = await axios.post<MessageResponse>(
-      "http://localhost:3000/api/v1/login/password",
+      `${import.meta.env.VITE_API_URL}/login/password`,
       { password },
       options
     );
@@ -536,7 +545,7 @@ const useUser = () => {
 const useAuth = () => {
   const postLogin = async (values: Values) => {
     const result = await axios.post<DBMessageResponse>(
-      "http://localhost:3000/api/v1/login",
+      `${import.meta.env.VITE_API_URL}/login`,
       values,
       {
         headers: {

@@ -14,7 +14,7 @@ const Devices = () => {
   const [allDevices, setAllDevices] = useState<
     Omit<Device, "data" | "timestamp" | "last_updated">[]
   >([]);
-
+  console.log(otherLocation);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [deviceToUpdate, setDeviceToUpdate] = useState<Omit<
     Device,

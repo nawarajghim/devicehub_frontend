@@ -19,10 +19,10 @@ const NewDevices: React.FC = () => {
   const [devices, setDevices] = useState<NewDevice[]>([]);
   const { detectedDevices, loading } = useFetchDetectedDevices();
   const { data, isConnected } = useWebSocket(
-    "ws://localhost:3000",
+    import.meta.env.VITE_SOCKET_URL,
     "new_device_alert_stream"
   );
-
+  console.log({ isConnected });
   useEffect(() => {
     if (
       data &&
