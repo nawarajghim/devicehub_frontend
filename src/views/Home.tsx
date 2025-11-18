@@ -48,7 +48,7 @@ const Home = () => {
                 <Link to={`/devices/name/${device.name}`} key={device.name}>
                   <div className="box" key={device.name}>
                     <div className={`home-iconi ${starClass}`}>
-                      <img className="home-star" src="/vector.png" alt="star" />
+                      <img className="home-star" src="/star.png" alt="star" />
                     </div>
                     <img
                       className="home-dots"
