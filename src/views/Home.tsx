@@ -48,15 +48,11 @@ const Home = () => {
                 <Link to={`/devices/name/${device.name}`} key={device.name}>
                   <div className="box" key={device.name}>
                     <div className={`home-iconi ${starClass}`}>
-                      <img
-                        className="home-star"
-                        src="/src/assets/vector.png"
-                        alt="star"
-                      />
+                      <img className="home-star" src="/vector.png" alt="star" />
                     </div>
                     <img
                       className="home-dots"
-                      src="/src/assets/dotvertical.png"
+                      src="/dotvertical.png"
                       alt="dots"
                     />
                     <p>{device.name}</p>

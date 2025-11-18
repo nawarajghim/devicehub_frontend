@@ -46,7 +46,7 @@
 .login-left {
   position: relative;
   width: 50%;
-  background-image: url("../assets/placeholderImage.jpg");
+  background-image: url("/placeholderImage.jpg");
   background-size: cover;
   background-position: center;
   border-radius: 15px 0 0 15px;
