@@ -34,11 +34,7 @@ const Home = () => {
         </div>
         <div className="right-side">
           <div className="logos">
-            <img
-              className="home-img2"
-              src="/src/assets/meta.png"
-              alt="logometropolia"
-            />
+            <img className="home-img2" src="/meta.png" alt="logometropolia" />
             {/* <img
               className="home-img1"
               src="/src/assets/nokia1.jpg"
